@@ -1446,8 +1446,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1768303216}
         m_TargetAssemblyTypeName: PlayerInputController, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+        m_MethodName: OnJump
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1493,11 +1493,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 6
   sprintSpeed: 10
-  jumpHeight: 100
+  jumpHeight: 30.3
   RotationSmoothTime: 0.12
   gravityValue: -10
   rotationSmoothTime: 0.1
   SpeedChangeRate: 10
+  inputJump: 0
   inputSprint: 0
   Grounded: 1
   GroundedOffset: -0.14
