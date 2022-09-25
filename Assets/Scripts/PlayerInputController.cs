@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputController : MonoBehaviour
 {    
+    [SerializeField] private ActivePlayerManager manager;
+
     private float movementSpeed; // Adjust at Move function
     [SerializeField] [Range(1f, 10f)] private float sprintSpeed = 10f;
     [SerializeField]  private float jumpHeight = 5f;
@@ -31,8 +34,12 @@ public class PlayerInputController : MonoBehaviour
 
     private CharacterController _characterController;
 
+
+
     private void Start()
     {
+
+
         //animator = GetComponent<Animator>();
         _characterController = GetComponent<CharacterController>();
 
@@ -65,39 +72,46 @@ public class PlayerInputController : MonoBehaviour
 
     private void Move()
     {
-        // normalise input direction
-        Vector3 Velocity = new Vector3(inputMove.x, 0f, inputMove.y).normalized;
+        ActivePlayer currentPlayer = manager.GetCurrentPlayer();
+
+        if (manager.PlayerCanPlay())
+        {
+            // normalise input direction
+            Vector3 Velocity = new Vector3(inputMove.x, 0f, inputMove.y).normalized;
         
-        if (Velocity.magnitude >= 0.1f)
-        {
-            movementSpeed = 6f;
-        }
-        else
-        {
-            movementSpeed = 0f;
-        }
+            if (Velocity.magnitude >= 0.1f)
+            {
+                movementSpeed = 6f;
+            }
+            else
+            {
+                movementSpeed = 0f;
+            }
 
-        if (inputSprint == true)
-        {
-            movementSpeed = sprintSpeed;
-        }
+            if (inputSprint == true)
+            {
+                movementSpeed = sprintSpeed;
+            }
      
-        if (inputMove != Vector2.zero) // (Velocity.magnitude >= 0.1f && _characterController.isGrounded)
-        {
-            // rotation from 0 to input + camera angle
-            targetRotation = Mathf.Atan2(Velocity.x, Velocity.z) * Mathf.Rad2Deg + mainCamera.eulerAngles.y;
-            // rotation smooth
-            float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity,
-                rotationSmoothTime);
+            if (inputMove != Vector2.zero) // (Velocity.magnitude >= 0.1f && _characterController.isGrounded)
+            {
+                // rotation from 0 to input + camera angle
+                targetRotation = Mathf.Atan2(Velocity.x, Velocity.z) * Mathf.Rad2Deg + mainCamera.eulerAngles.y;
+                // rotation smooth
+                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity,
+                    rotationSmoothTime);
             
-            // rotate to face input direction relative to camera position
-            transform.rotation = Quaternion.Euler(0f, rotation, 0f);
-        }
-        //transform rotation to movement
-        Vector3 targetDirection = Quaternion.Euler(0f, targetRotation, 0f) * (Vector3.forward);
+                // rotate to face input direction relative to camera position
+                transform.rotation = Quaternion.Euler(0f, rotation, 0f);
+            }
+            //transform rotation to movement
+            Vector3 targetDirection = Quaternion.Euler(0f, targetRotation, 0f) * (Vector3.forward);
 
-        // convert vel to displacement and Move the character:
-        _characterController.Move(targetDirection.normalized * (movementSpeed * Time.deltaTime) + new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
+            // convert vel to displacement and Move the character:
+            
+            currentPlayer.GetComponent<CharacterController>().Move(targetDirection.normalized * (movementSpeed * Time.deltaTime) + new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
+        }
+        
     }
     private void Jump()
     {
