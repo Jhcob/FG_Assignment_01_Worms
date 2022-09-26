@@ -33,15 +33,26 @@ public class PlayerInputController : MonoBehaviour
     //public Animator animator;
 
     private CharacterController _characterController;
+    private PlayerInput playerInput;
 
-
+    private InputAction moveAction;
+    private InputAction jumpAction;
+    // private InputAction shootAction;
+    // private InputAction lookAction;
 
     private void Start()
     {
+        _characterController = GetComponent<CharacterController>();
+        playerInput = GetComponent<PlayerInput>();
+        
+        moveAction = playerInput.actions["Move"];
+        jumpAction = playerInput.actions["jump"];
+        // shootAction = playerInput.actions["shoot"];
+        // lookAction = playerInput.actions["look"];
 
+        
 
         //animator = GetComponent<Animator>();
-        _characterController = GetComponent<CharacterController>();
 
         Cursor.lockState = CursorLockMode.Locked;
         // Cursor.visible = false;
@@ -51,24 +62,29 @@ public class PlayerInputController : MonoBehaviour
         Move();
         Jump();
         Gravity();
+        
+        ActivePlayer currentPlayer = manager.GetCurrentPlayer();
+        Debug.Log(currentPlayer);
+        
     }
     
-    public void OnMove(InputAction.CallbackContext context)
-    {
-        inputMove = context.ReadValue<Vector2>();
-    }
-    public void OnJump(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            inputJump = context.ReadValueAsButton();
-        }
-        return;
-    }
-    public void OnSprint(InputAction.CallbackContext context)
-    {
-        inputSprint = context.ReadValueAsButton();
-    }
+    // public void OnMove(InputAction.CallbackContext context)
+    // {
+    //     inputMove = context.ReadValue<Vector2>();
+    // }
+    
+    // public void OnJump(InputAction.CallbackContext context)
+    // {
+    //     if (context.performed)
+    //     {
+    //         inputJump = context.ReadValueAsButton();
+    //     }
+    //     return;
+    // }
+    // public void OnSprint(InputAction.CallbackContext context)
+    // {
+    //     inputSprint = context.ReadValueAsButton();
+    // }
 
     private void Move()
     {
@@ -76,6 +92,9 @@ public class PlayerInputController : MonoBehaviour
 
         if (manager.PlayerCanPlay())
         {
+            // Getting input Vector2 for moving
+            Vector2 inputMove = moveAction.ReadValue<Vector2>();
+            
             // normalise input direction
             Vector3 Velocity = new Vector3(inputMove.x, 0f, inputMove.y).normalized;
         
@@ -115,25 +134,30 @@ public class PlayerInputController : MonoBehaviour
     }
     private void Jump()
     {
-        if (_characterController.isGrounded)
+        ActivePlayer currentPlayer = manager.GetCurrentPlayer();
+
+        if (currentPlayer.GetComponent<CharacterController>().isGrounded )
         {
-            if (inputJump == true)
+            if (jumpAction.triggered)
             {
-                //Debug.Log("jumping");
+                Debug.Log("jumping");
+
                 // the square root of H * -2 * G = how much velocity needed to reach desired height
                 verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravityValue);
             }
         }
-        else
-        {
-            Debug.Log("floating");
-            // if we are not grounded, do not jump
+         else
+         {
+             Debug.Log("floating");
+             //if we are not grounded, do not jump
             inputJump = false;
         }
     }
     private void Gravity()
     {
-        if (_characterController.isGrounded)
+        ActivePlayer currentPlayer = manager.GetCurrentPlayer();
+
+        if (currentPlayer.GetComponent<CharacterController>().isGrounded)
         {
             //Debug.Log("grounded");
             // stop our velocity dropping infinitely when grounded
