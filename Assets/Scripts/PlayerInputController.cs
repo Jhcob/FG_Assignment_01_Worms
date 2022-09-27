@@ -10,45 +10,48 @@ public class PlayerInputController : MonoBehaviour
 {    
     [SerializeField] private ActivePlayerManager manager;
 
-    private float movementSpeed; // Adjust at Move function
-    [SerializeField] [Range(1f, 10f)] private float sprintSpeed = 10f;
+    private float speed = 7f; // Starting speed
+    [SerializeField] [Range(3f, 10f)]private float movementSpeed = 6f; 
+    [SerializeField] [Range(7f, 20f)] private float sprintSpeed = 12f;
     [SerializeField]  private float jumpHeight = 5f;
     [SerializeField] private float gravityValue = -10f;
-    [SerializeField] [Range(0f, 1f)] float rotationSmoothTime = 0.1f;
+    [SerializeField] [Range(0f, 10f)] float rotationSpeed = 5f;
 
     private Vector2 inputMove;
-    //private Vector3 Velocity;
-
-    // input button
-    public bool inputJump = false;
-    public bool inputSprint = false;
 
     // player
-    private float targetRotation;
     private float rotationVelocity;
     private float verticalVelocity;
 
     
-    public Transform mainCamera;
-    //public Animator animator;
+    public Transform cameraTransform;
 
-    private CharacterController _characterController;
+    private CharacterController characterController;
     private PlayerInput playerInput;
+    private ActivePlayerShoot _playerShoot;
 
     private InputAction moveAction;
     private InputAction jumpAction;
-    // private InputAction shootAction;
-    // private InputAction lookAction;
+    private InputAction sprintAction;
+    //public Animator animator;
 
+    //   currentPlayer.GetComponent<CharacterController>().Move
     private void Start()
     {
-        _characterController = GetComponent<CharacterController>();
+        ActivePlayer currentPlayer = manager.GetCurrentPlayer();
+        
+        
+        characterController = GetComponent<CharacterController>();
+
+        currMove = currentPlayer.characterController.Move;
+        
         playerInput = GetComponent<PlayerInput>();
         
         moveAction = playerInput.actions["Move"];
-        jumpAction = playerInput.actions["jump"];
-        // shootAction = playerInput.actions["shoot"];
-        // lookAction = playerInput.actions["look"];
+        jumpAction = playerInput.actions["Jump"];
+        sprintAction = playerInput.actions["Sprint"];
+
+        cameraTransform = Camera.main.transform;
 
         
 
@@ -62,30 +65,10 @@ public class PlayerInputController : MonoBehaviour
         Move();
         Jump();
         Gravity();
-        
-        ActivePlayer currentPlayer = manager.GetCurrentPlayer();
-        Debug.Log(currentPlayer);
-        
+
+
     }
     
-    // public void OnMove(InputAction.CallbackContext context)
-    // {
-    //     inputMove = context.ReadValue<Vector2>();
-    // }
-    
-    // public void OnJump(InputAction.CallbackContext context)
-    // {
-    //     if (context.performed)
-    //     {
-    //         inputJump = context.ReadValueAsButton();
-    //     }
-    //     return;
-    // }
-    // public void OnSprint(InputAction.CallbackContext context)
-    // {
-    //     inputSprint = context.ReadValueAsButton();
-    // }
-
     private void Move()
     {
         ActivePlayer currentPlayer = manager.GetCurrentPlayer();
@@ -96,40 +79,28 @@ public class PlayerInputController : MonoBehaviour
             Vector2 inputMove = moveAction.ReadValue<Vector2>();
             
             // normalise input direction
-            Vector3 Velocity = new Vector3(inputMove.x, 0f, inputMove.y).normalized;
-        
-            if (Velocity.magnitude >= 0.1f)
+            Vector3 velocity = new Vector3(inputMove.x, 0f, inputMove.y).normalized;
+            
+            // Sprint 
+            if (sprintAction.IsPressed() && velocity.magnitude >= 0.1f  && currentPlayer.GetComponent<CharacterController>().isGrounded)
             {
-                movementSpeed = 6f;
+                speed = sprintSpeed;
             }
             else
             {
-                movementSpeed = 0f;
+                speed = movementSpeed;
             }
 
-            if (inputSprint == true)
-            {
-                movementSpeed = sprintSpeed;
-            }
-     
-            if (inputMove != Vector2.zero) // (Velocity.magnitude >= 0.1f && _characterController.isGrounded)
-            {
-                // rotation from 0 to input + camera angle
-                targetRotation = Mathf.Atan2(Velocity.x, Velocity.z) * Mathf.Rad2Deg + mainCamera.eulerAngles.y;
-                // rotation smooth
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity,
-                    rotationSmoothTime);
+            velocity = velocity.x * cameraTransform.right.normalized + velocity.z * cameraTransform.forward.normalized;
+            velocity.y = 0;
             
-                // rotate to face input direction relative to camera position
-                transform.rotation = Quaternion.Euler(0f, rotation, 0f);
-            }
-            //transform rotation to movement
-            Vector3 targetDirection = Quaternion.Euler(0f, targetRotation, 0f) * (Vector3.forward);
-
-            // convert vel to displacement and Move the character:
+            // rotate towards camera direction
+            Quaternion targetRotation = Quaternion.Euler(0, cameraTransform.eulerAngles.y, 0);
+            currentPlayer.GetComponent<CharacterController>().transform.rotation = Quaternion.Lerp( currentPlayer.GetComponent<CharacterController>().transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             
-            currentPlayer.GetComponent<CharacterController>().Move(targetDirection.normalized * (movementSpeed * Time.deltaTime) + new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
-        }
+            
+            currentPlayer.GetComponent<CharacterController>().Move((velocity * Time.deltaTime * speed) + new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
+        }   
         
     }
     private void Jump()
@@ -138,6 +109,7 @@ public class PlayerInputController : MonoBehaviour
 
         if (currentPlayer.GetComponent<CharacterController>().isGrounded )
         {
+            Debug.Log("gounded");
             if (jumpAction.triggered)
             {
                 Debug.Log("jumping");
@@ -146,12 +118,6 @@ public class PlayerInputController : MonoBehaviour
                 verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravityValue);
             }
         }
-         else
-         {
-             Debug.Log("floating");
-             //if we are not grounded, do not jump
-            inputJump = false;
-        }
     }
     private void Gravity()
     {
@@ -159,7 +125,6 @@ public class PlayerInputController : MonoBehaviour
 
         if (currentPlayer.GetComponent<CharacterController>().isGrounded)
         {
-            //Debug.Log("grounded");
             // stop our velocity dropping infinitely when grounded
             if (verticalVelocity < 0.0f)
             {

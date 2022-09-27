@@ -5,21 +5,21 @@ using Cinemachine;
 
 public static class CameraSwitcher
 {
-    public static List<CinemachineFreeLook> cameras = new List<CinemachineFreeLook>();
+    public static List<CinemachineVirtualCamera> cameras = new List<CinemachineVirtualCamera>();
 
-    public static CinemachineFreeLook ActiveCamera = null;
+    public static CinemachineVirtualCamera ActiveCamera = null;
 
-    public static bool IsActiveCamera(CinemachineFreeLook camera)
+    public static bool IsActiveCamera(CinemachineVirtualCamera camera)
     {
         return camera == ActiveCamera;
     }
 
-    public static void SwitchCamera(CinemachineFreeLook camera)
+    public static void SwitchCamera(CinemachineVirtualCamera camera)
     {
         camera.Priority = 10;
         ActiveCamera = camera;
 
-        foreach (CinemachineFreeLook c in cameras)
+        foreach (CinemachineVirtualCamera c in cameras)
         {
             if (c != camera && c.Priority != 0)
             {
@@ -28,14 +28,14 @@ public static class CameraSwitcher
         }
     }
 
-    public static void Register(CinemachineFreeLook camera)
+    public static void Register(CinemachineVirtualCamera camera)
     {
         cameras.Add(camera);
         Debug.Log("camera registered" + camera);
 
     }
 
-    public static void Unregister(CinemachineFreeLook camera)
+    public static void Unregister(CinemachineVirtualCamera camera)
     {
         cameras.Remove(camera);
         Debug.Log("camera unregistered" + camera);

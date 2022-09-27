@@ -7,8 +7,13 @@ using Cinemachine;
 
 public class CameraInputController : MonoBehaviour
 {
-    [SerializeField] private CinemachineFreeLook Player01;
-    [SerializeField] private CinemachineFreeLook Player02;
+    [SerializeField] private CinemachineVirtualCamera Player01;
+    [SerializeField] private CinemachineVirtualCamera Player02;
+    
+    private PlayerInput playerInput;
+   
+    private InputAction swithTurnAction;
+
 
     private void OnEnable()
     {
@@ -17,16 +22,26 @@ public class CameraInputController : MonoBehaviour
         CameraSwitcher.SwitchCamera(Player01);
     }
 
+    private void Start()
+    {
+        playerInput = GetComponent<PlayerInput>();
+        swithTurnAction = playerInput.actions["SwitchTurn"];
+    }
+
+    private void Update()
+    {
+        SwitchTurn();
+    }
+
     private void OnDisable()
     {
         CameraSwitcher.Unregister(Player01);
         CameraSwitcher.Unregister(Player02);
     }
 
-
-    public void OnTurnOver(InputAction.CallbackContext context)
+    public void SwitchTurn()
     {
-        if (context.performed)
+        if (swithTurnAction.triggered)
         {
             Debug.Log("Camera switch");
             if (CameraSwitcher.IsActiveCamera(Player01))
@@ -39,4 +54,5 @@ public class CameraInputController : MonoBehaviour
             }
         }
     }
+
 }

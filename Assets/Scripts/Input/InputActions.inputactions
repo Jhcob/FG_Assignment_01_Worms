@@ -43,15 +43,15 @@
                 },
                 {
                     "name": "Sprint",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "92201fce-3be7-42b8-8a81-02eb3fbaf536",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
-                    "name": "Turn end",
+                    "name": "SwitchTurn",
                     "type": "Button",
                     "id": "66268375-a4f2-4d79-8d67-ad084456c75b",
                     "expectedControlType": "Button",
@@ -310,7 +310,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Turn end",
+                    "action": "SwitchTurn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
