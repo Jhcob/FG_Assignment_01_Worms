@@ -22,7 +22,6 @@ public class PlayerInputController : MonoBehaviour
     // player
     private float rotationVelocity;
     private float verticalVelocity;
-
     
     public Transform cameraTransform;
 
@@ -35,16 +34,8 @@ public class PlayerInputController : MonoBehaviour
     private InputAction sprintAction;
     //public Animator animator;
 
-    //   currentPlayer.GetComponent<CharacterController>().Move
     private void Start()
     {
-        ActivePlayer currentPlayer = manager.GetCurrentPlayer();
-        
-        
-        characterController = GetComponent<CharacterController>();
-
-        currMove = currentPlayer.characterController.Move;
-        
         playerInput = GetComponent<PlayerInput>();
         
         moveAction = playerInput.actions["Move"];
@@ -52,8 +43,6 @@ public class PlayerInputController : MonoBehaviour
         sprintAction = playerInput.actions["Sprint"];
 
         cameraTransform = Camera.main.transform;
-
-        
 
         //animator = GetComponent<Animator>();
 
@@ -65,8 +54,6 @@ public class PlayerInputController : MonoBehaviour
         Move();
         Jump();
         Gravity();
-
-
     }
     
     private void Move()
@@ -98,10 +85,8 @@ public class PlayerInputController : MonoBehaviour
             Quaternion targetRotation = Quaternion.Euler(0, cameraTransform.eulerAngles.y, 0);
             currentPlayer.GetComponent<CharacterController>().transform.rotation = Quaternion.Lerp( currentPlayer.GetComponent<CharacterController>().transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             
-            
             currentPlayer.GetComponent<CharacterController>().Move((velocity * Time.deltaTime * speed) + new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
         }   
-        
     }
     private void Jump()
     {
@@ -109,11 +94,8 @@ public class PlayerInputController : MonoBehaviour
 
         if (currentPlayer.GetComponent<CharacterController>().isGrounded )
         {
-            Debug.Log("gounded");
             if (jumpAction.triggered)
             {
-                Debug.Log("jumping");
-
                 // the square root of H * -2 * G = how much velocity needed to reach desired height
                 verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravityValue);
             }

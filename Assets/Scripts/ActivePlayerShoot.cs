@@ -6,15 +6,17 @@ using UnityEngine.InputSystem;
 
 public class ActivePlayerShoot : MonoBehaviour
 {
-    [SerializeField] private bool inputShoot;
-    [SerializeField] private ActivePlayerManager manager;
+    [SerializeField] 
+    private bool inputShoot;
+    [SerializeField] 
+    private ActivePlayerManager manager;
     private InputAction FireAction;
     private PlayerInput playerInput;
 
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
         FireAction = playerInput.actions["Fire"];

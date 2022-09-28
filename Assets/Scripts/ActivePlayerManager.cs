@@ -7,14 +7,14 @@ using TMPro;
 
 public class ActivePlayerManager : MonoBehaviour
 {
-    [SerializeField] private ActivePlayer player01;
-    [SerializeField] private ActivePlayer player02;
+    [SerializeField] public ActivePlayer player01;
+    [SerializeField] public ActivePlayer player02;
     [SerializeField] private float maxTimePerTurn;
     [SerializeField] private float timeBetweenTurns;
     [SerializeField] private Image clock;
     [SerializeField] private TextMeshProUGUI seconds;
     
-    private ActivePlayer currentPlayer;
+    public ActivePlayer currentPlayer;
     private float currentTurnTime;
     private float currentDelay;
     private void Start()
