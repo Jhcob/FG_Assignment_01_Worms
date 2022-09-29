@@ -67,6 +67,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "nextTurn",
+                    "type": "Button",
+                    "id": "7e622e7b-b9c6-4858-b4f6-7ac5f9e26c1d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -303,6 +312,17 @@
                 },
                 {
                     "name": "",
+                    "id": "5f32ab3c-312a-4cbc-809b-901ab9bf57ba",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "7aa64c6d-f9b5-4800-92cf-66ab72fe97a4",
                     "path": "<Keyboard>/shift",
                     "interactions": "",
@@ -314,11 +334,33 @@
                 },
                 {
                     "name": "",
+                    "id": "08495002-bf7c-45f3-bcf5-593b50d94911",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c10dc5f4-3594-443f-bc9d-fc9994d41643",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Keyboard>/backspace",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
+                    "action": "SwitchTurn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3c13282a-6d26-4012-9b72-ee63556e29c9",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
                     "action": "SwitchTurn",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -331,6 +373,39 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "869a3d1e-f72e-439a-b08e-5b10491767f1",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7421a03b-70ca-4739-b8ea-8e6c873beb8c",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "nextTurn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9ec7c254-7562-4595-b8ae-b4675fb24e6e",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "nextTurn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

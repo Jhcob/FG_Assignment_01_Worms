@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(CharacterController))]
 
-public class PlayerInputController : MonoBehaviour
+public class LocomotionInputController : MonoBehaviour
 {    
     [SerializeField] private ActivePlayerManager manager;
 
@@ -16,7 +15,7 @@ public class PlayerInputController : MonoBehaviour
     [SerializeField]  private float jumpHeight = 5f;
     [SerializeField] private float gravityValue = -10f;
     [SerializeField] [Range(0f, 10f)] float rotationSpeed = 5f;
-
+    
     private Vector2 inputMove;
 
     // player
@@ -27,7 +26,7 @@ public class PlayerInputController : MonoBehaviour
 
     private CharacterController characterController;
     private PlayerInput playerInput;
-    private ActivePlayerShoot _playerShoot;
+    private PlayerShoot _playerShoot;
 
     private InputAction moveAction;
     private InputAction jumpAction;
@@ -55,8 +54,7 @@ public class PlayerInputController : MonoBehaviour
         Jump();
         Gravity();
     }
-    
-    private void Move()
+    public void Move()
     {
         ActivePlayer currentPlayer = manager.GetCurrentPlayer();
 
@@ -88,7 +86,7 @@ public class PlayerInputController : MonoBehaviour
             currentPlayer.GetComponent<CharacterController>().Move((velocity * Time.deltaTime * speed) + new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
         }   
     }
-    private void Jump()
+    public void Jump()
     {
         ActivePlayer currentPlayer = manager.GetCurrentPlayer();
 

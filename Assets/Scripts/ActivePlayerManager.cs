@@ -13,13 +13,15 @@ public class ActivePlayerManager : MonoBehaviour
     [SerializeField] private float timeBetweenTurns;
     [SerializeField] private Image clock;
     [SerializeField] private TextMeshProUGUI seconds;
+
+    [SerializeField] 
+    private CameraInputController _cameraInputController;
     
-    public ActivePlayer currentPlayer;
+    private ActivePlayer currentPlayer;
     private float currentTurnTime;
     private float currentDelay;
     private void Start()
     {
-        
         player01.AssignManager(this);
         player02.AssignManager(this);
 
@@ -28,6 +30,11 @@ public class ActivePlayerManager : MonoBehaviour
 
     private void Update()
     {
+        TurnTimeExecute();
+    }
+
+    private void TurnTimeExecute()
+    {
         if (currentDelay <= 0)
         {
             currentTurnTime += Time.deltaTime;
@@ -35,11 +42,13 @@ public class ActivePlayerManager : MonoBehaviour
             if (currentTurnTime >= maxTimePerTurn)
             {
                 ChangeTurn();
+                ChangeCamera();
                 ResetTimers();
             }
+
             UpdateTimeVisuals();
         }
-        else 
+        else
         {
             currentDelay -= Time.deltaTime;
         }
@@ -69,6 +78,13 @@ public class ActivePlayerManager : MonoBehaviour
         ResetTimers();
         UpdateTimeVisuals();
     }
+
+    public void ChangeCamera()
+    {
+        _cameraInputController.CameraSwitch();
+    }
+    
+    
 
     private void ResetTimers()
     {

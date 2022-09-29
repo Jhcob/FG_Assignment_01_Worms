@@ -9,51 +9,73 @@ using Cinemachine;
 public class CameraSwitcherAim : MonoBehaviour
 {
     [SerializeField]
-    private ActivePlayerManager activePlayerManager;
+    private ActivePlayerManager activePlayerManager;    
+    [SerializeField]
+    private PlayerInput inputManager;
+
+    [SerializeField] 
+    private Canvas Canvas;
+    [SerializeField] 
+    private Canvas CanvasAim;
     
     private int priorityHigh = 11;
     private int priorityLow = 9;
     
     [SerializeField]
-    private CinemachineVirtualCamera virtualCamera01;
+    private CinemachineVirtualCamera aimCamera01;
     [SerializeField]
-    private CinemachineVirtualCamera virtualCamera02;
+    private CinemachineVirtualCamera aimCamera02;
+    [SerializeField] 
+    public ActivePlayer player01;
+    [SerializeField] 
+    public ActivePlayer player02;
 
     
     private ActivePlayer currentPlayer;
     
-    [SerializeField] public ActivePlayer player01;
-    [SerializeField] public ActivePlayer player02;
+    private InputAction aimAction;
+
+    private void Awake()
+    {
+        currentPlayer = activePlayerManager.GetCurrentPlayer();
+        aimAction = inputManager.actions["Aim"];
+    }
 
     private void Update()
     {
-        currentPlayer = activePlayerManager.GetCurrentPlayer();
         AimCamera();
     }
 
     private void AimCamera()
-    {
+    {currentPlayer = activePlayerManager.GetCurrentPlayer();  
         if (currentPlayer == player01)
-        {
-            if (Mouse.current.rightButton.isPressed)
+        {    
+            if (aimAction.IsPressed())
             {
-                virtualCamera01.Priority = priorityHigh;
+                CanvasAim.enabled = true;
+                Canvas.enabled = false;
+                aimCamera01.Priority = priorityHigh;
             }
-            else if (Mouse.current.rightButton.wasReleasedThisFrame)
+            else if (aimAction.WasReleasedThisFrame())
             {
-                virtualCamera01.Priority = priorityLow;
+                CanvasAim.enabled = false;
+                Canvas.enabled = true;
+                aimCamera01.Priority = priorityLow;
             }
         }
         if (currentPlayer == player02)
-        {
-            if (Mouse.current.rightButton.isPressed)
+        { 
+            if (aimAction.IsPressed())
             {
-                virtualCamera02.Priority = priorityHigh;
+                CanvasAim.enabled = true;
+                Canvas.enabled = false;
+                aimCamera02.Priority = priorityHigh;
             }
-            else if (Mouse.current.rightButton.wasReleasedThisFrame)
+            else if (aimAction.WasReleasedThisFrame())
             {
-                virtualCamera02.Priority = priorityLow;
-
+                CanvasAim.enabled = false;
+                Canvas.enabled = true;
+                aimCamera02.Priority = priorityLow;
             }
         }
     }

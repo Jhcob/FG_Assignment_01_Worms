@@ -5,6 +5,10 @@ using UnityEngine;
 public class ActivePlayer : MonoBehaviour
 {
     private ActivePlayerManager manager;
+    [SerializeField]
+    private Weapon weapon;
+    
+    
     public void AssignManager(ActivePlayerManager theManager)
     {
         manager = theManager;
@@ -12,8 +16,9 @@ public class ActivePlayer : MonoBehaviour
 
     public void FireProjectile()
     {
+        weapon.FireProjectile();
         SetRandomColor();
-        manager.ChangeTurn();
+        //manager.ChangeTurn();
     }
     
     public void SetRandomColor()
