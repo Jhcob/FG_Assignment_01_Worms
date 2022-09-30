@@ -7,10 +7,8 @@ using Random = UnityEngine.Random;
 
 public class BulletController : MonoBehaviour
 {
-    [SerializeField] 
-    private GameObject[] decalBullet;
-    [SerializeField] 
-    private float speed = 50f;
+    [SerializeField] private GameObject[] decalBullet;
+    [SerializeField] private float speed = 50f;
     
     private float timeToDestroy = 3f;
     

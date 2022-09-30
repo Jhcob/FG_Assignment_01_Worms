@@ -26,7 +26,6 @@ public class LocomotionInputController : MonoBehaviour
 
     private CharacterController characterController;
     private PlayerInput playerInput;
-    private PlayerShoot _playerShoot;
 
     private InputAction moveAction;
     private InputAction jumpAction;

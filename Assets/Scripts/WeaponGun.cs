@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public class WeaponGun : MonoBehaviour
 {
     //Bullet
     [SerializeField] private GameObject bulletPrefab;    
     [SerializeField] private Transform bulletSpawn;
     [SerializeField] private Transform bulletParent;
     [SerializeField] private float bulletMissDistance = 25f;
+    [SerializeField] private float weaponDamage;
     
     public Transform cameraTransform;
 
@@ -23,6 +24,11 @@ public class Weapon : MonoBehaviour
         {
             bulletController.target = hit.point;
             bulletController.hit = true;
+            ActivePlayerHealth activePlayerHealth = hit.collider.GetComponent<ActivePlayerHealth>();
+            if (activePlayerHealth != null)
+            {
+                 activePlayerHealth.TakeDamage(weaponDamage);
+            }
         }
         else
         {
