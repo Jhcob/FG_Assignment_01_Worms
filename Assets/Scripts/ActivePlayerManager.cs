@@ -7,56 +7,100 @@ using TMPro;
 
 public class ActivePlayerManager : MonoBehaviour
 {
+    enum GameState
+    {
+        PlayerTurn,
+        WaitingForInput,
+        TurnChange,
+    }
+
+    [SerializeField] GameState currentState;
     [SerializeField] public ActivePlayer player01;
     [SerializeField] public ActivePlayer player02;
     [SerializeField] private float maxTimePerTurn;
-    [SerializeField] private float timeBetweenTurns;
+    
+    [Header("UI")]
     [SerializeField] private Image clock;
     [SerializeField] private TextMeshProUGUI seconds;
+    [SerializeField] GameObject buttonToPlay;
+    GameObject buttonToPlayEnable;
 
     [SerializeField] 
-    private CameraInputController _cameraInputController;
+    private CameraController cameraController;
     
     private ActivePlayer currentPlayer;
     private float currentTurnTime;
-    private float currentDelay;
+    // private float currentDelay;
+    
+
     private void Start()
     {
         player01.AssignManager(this);
         player02.AssignManager(this);
 
         currentPlayer = player01;
+        
+        currentState = GameState.PlayerTurn;
+        buttonToPlay.gameObject.SetActive(false);
+        buttonToPlayEnable = buttonToPlay.gameObject;
     }
 
-    private void Update()
+    void LateUpdate()
     {
-        TurnTimeExecute();
-    }
-
-    private void TurnTimeExecute()
-    {
-        if (currentDelay <= 0)
+        switch (currentState)
         {
-            currentTurnTime += Time.deltaTime;
-
-            if (currentTurnTime >= maxTimePerTurn)
-            {
-                ChangeTurn();
-                ChangeCamera();
-                ResetTimers();
-            }
-
-            UpdateTimeVisuals();
-        }
-        else
-        {
-            currentDelay -= Time.deltaTime;
+            case GameState.PlayerTurn:
+                StartGame();
+                break;
+            case GameState.WaitingForInput:
+                InputToPlay();
+                break;
+            case GameState.TurnChange:
+                TurnOver();
+                break;
         }
     }
 
-    public bool PlayerCanPlay()
+    private void StartGame()
     {
-        return currentDelay <= 0;
+        currentTurnTime += Time.deltaTime;
+        if (currentTurnTime >= maxTimePerTurn)
+        {
+            ChangeCamera();
+            PlayerCannotPlay();
+            currentState = GameState.WaitingForInput;
+        }
+        UpdateTimeVisuals();
+    }
+    private void InputToPlay()
+    {
+        buttonToPlayEnable.SetActive(true);
+        currentTurnTime = 0f;
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            GameStateTurnChange();
+        }
+    }
+    private void TurnOver()
+    {
+        PlayerCanPlay();
+        ChangeTurn();
+        ResetTimers();
+        currentState = GameState.PlayerTurn;
+    }
+
+    public void GameStateTurnChange()
+    {
+        currentState = GameState.TurnChange;
+    }
+
+    private void PlayerCanPlay()
+    {
+        currentPlayer.GetComponent<CharacterController>().enabled = true;
+    }    
+    private void PlayerCannotPlay()
+    {
+        currentPlayer.GetComponent<CharacterController>().enabled = false;
     }
 
     public ActivePlayer GetCurrentPlayer()
@@ -66,6 +110,8 @@ public class ActivePlayerManager : MonoBehaviour
 
     public void ChangeTurn()
     {
+        buttonToPlayEnable.SetActive(false);
+
         if (player01 == currentPlayer)
         {
             currentPlayer = player02;
@@ -81,15 +127,13 @@ public class ActivePlayerManager : MonoBehaviour
 
     public void ChangeCamera()
     {
-        _cameraInputController.CameraSwitch();
+        cameraController.CameraSwitch();
     }
     
-    
-
     private void ResetTimers()
     {
         currentTurnTime = 0;
-        currentDelay = timeBetweenTurns;
+        // currentDelay = timeBetweenTurns;
     }
 
     private void UpdateTimeVisuals()

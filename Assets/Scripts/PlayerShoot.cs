@@ -20,7 +20,6 @@ public class PlayerShoot : MonoBehaviour
         FireAction = playerInput.actions["Fire"];
     }
 
-
     private void Update()
     {
         Shoot();
@@ -30,11 +29,8 @@ public class PlayerShoot : MonoBehaviour
     {
         if (FireAction.triggered)
         {
-            Debug.Log("Fire");
             ActivePlayer currentPlayer = manager.GetCurrentPlayer();
             currentPlayer.FireProjectile();
         }
     }
-    
-    
 }

@@ -5,15 +5,12 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
 
-public class CameraInputController : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
     [SerializeField] 
     private CinemachineVirtualCamera Player01;
     [SerializeField] 
     private CinemachineVirtualCamera Player02;
-    
-    private PlayerInput playerInput;
-    private InputAction swithTurnAction;
     
     [SerializeField]
     private ActivePlayerManager turnManager;
@@ -22,22 +19,12 @@ public class CameraInputController : MonoBehaviour
     {
         turnManager = myManager;
     }
-    
-    private void Awake()
-    {
-        playerInput = GetComponent<PlayerInput>();
-        swithTurnAction = playerInput.actions["SwitchTurn"];
-    }
+
     private void OnEnable()
     {
         CameraSwitcher.Register(Player01);
         CameraSwitcher.Register(Player02);
         CameraSwitcher.SwitchCamera(Player01);
-    }
-
-    private void Update()
-    {
-        TurnAndCamera();
     }
 
     public void CameraSwitch()
@@ -51,16 +38,6 @@ public class CameraInputController : MonoBehaviour
             CameraSwitcher.SwitchCamera(Player01);
         }
     }
-
-    public void TurnAndCamera()
-    {
-        if (swithTurnAction.triggered)
-        {
-            CameraSwitch();
-            turnManager.ChangeTurn();
-        }
-    }
-    
     private void OnDisable()
     {
         CameraSwitcher.Unregister(Player01);

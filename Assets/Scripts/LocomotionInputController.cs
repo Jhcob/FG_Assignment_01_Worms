@@ -46,7 +46,7 @@ public class LocomotionInputController : MonoBehaviour
         //animator = GetComponent<Animator>();
 
         Cursor.lockState = CursorLockMode.Locked;
-        // Cursor.visible = false;
+        Cursor.visible = false;
     }
     private void Update()
     {
@@ -58,33 +58,31 @@ public class LocomotionInputController : MonoBehaviour
     {
         ActivePlayer currentPlayer = manager.GetCurrentPlayer();
 
-        if (manager.PlayerCanPlay())
+        // Getting input Vector2 for moving
+        Vector2 inputMove = moveAction.ReadValue<Vector2>();
+        
+        // normalise input direction
+        Vector3 velocity = new Vector3(inputMove.x, 0f, inputMove.y).normalized;
+        
+        // Sprint 
+        if (sprintAction.IsPressed() && velocity.magnitude >= 0.1f  && currentPlayer.GetComponent<CharacterController>().isGrounded)
         {
-            // Getting input Vector2 for moving
-            Vector2 inputMove = moveAction.ReadValue<Vector2>();
-            
-            // normalise input direction
-            Vector3 velocity = new Vector3(inputMove.x, 0f, inputMove.y).normalized;
-            
-            // Sprint 
-            if (sprintAction.IsPressed() && velocity.magnitude >= 0.1f  && currentPlayer.GetComponent<CharacterController>().isGrounded)
-            {
-                speed = sprintSpeed;
-            }
-            else
-            {
-                speed = movementSpeed;
-            }
+            speed = sprintSpeed;
+        }
+        else
+        {
+            speed = movementSpeed;
+        }
 
-            velocity = velocity.x * cameraTransform.right.normalized + velocity.z * cameraTransform.forward.normalized;
-            velocity.y = 0;
-            
-            // rotate towards camera direction
-            Quaternion targetRotation = Quaternion.Euler(0, cameraTransform.eulerAngles.y, 0);
-            currentPlayer.GetComponent<CharacterController>().transform.rotation = Quaternion.Lerp( currentPlayer.GetComponent<CharacterController>().transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            
-            currentPlayer.GetComponent<CharacterController>().Move((velocity * Time.deltaTime * speed) + new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
-        }   
+        velocity = velocity.x * cameraTransform.right.normalized + velocity.z * cameraTransform.forward.normalized;
+        velocity.y = 0;
+        
+        // rotate towards camera direction
+        Quaternion targetRotation = Quaternion.Euler(0, cameraTransform.eulerAngles.y, 0);
+        currentPlayer.GetComponent<CharacterController>().transform.rotation = Quaternion.Lerp( currentPlayer.GetComponent<CharacterController>().transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        
+        currentPlayer.GetComponent<CharacterController>().Move((velocity * Time.deltaTime * speed) + new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
+        
     }
     public void Jump()
     {
