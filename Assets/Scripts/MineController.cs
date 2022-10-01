@@ -8,17 +8,33 @@ using Random = UnityEngine.Random;
 public class MineController : MonoBehaviour
 {
     // [SerializeField] private float speed = 1f;
-    
-    // private float timeToDestroy = 3f;
+    [SerializeField] private float mineDamage;
+    private ParticleSystem myParticleSystem;
+    [SerializeField] private ParticleSystem explosionFX;
+    private float timeToDestroy = 0.6f;
 
-    // private void OnEnable()
-    // {
-    //     Destroy(gameObject, timeToDestroy);
-    // }
 
-    
+
+    private void OnEnable()
+    {
+        explosionFX.Stop();
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        ActivePlayerHealth activePlayerHealth = other.GetComponent<ActivePlayerHealth>();
+        if (activePlayerHealth != null && other.gameObject.tag == "Player01")
+        {
+            activePlayerHealth.TakeDamage(mineDamage);
+            gameObject.GetComponent<MeshRenderer>().enabled = false;
+            explosionFX.Play();
+            Destroy(gameObject, timeToDestroy);
+        }
+    }
+
     private void OnCollisionEnter(Collision other)
     {
-        
+
     }
 }

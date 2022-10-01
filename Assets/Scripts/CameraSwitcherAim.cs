@@ -23,16 +23,12 @@ public class CameraSwitcherAim : MonoBehaviour
     
     [SerializeField]
     private CinemachineVirtualCamera aimCamera01;
-    [SerializeField]
-    private CinemachineVirtualCamera aimCamera02;
     [SerializeField] 
     public ActivePlayer player01;
     [SerializeField] 
     public ActivePlayer player02;
 
-    
     private ActivePlayer currentPlayer;
-    
     private InputAction aimAction;
 
     private void Awake()
@@ -50,6 +46,8 @@ public class CameraSwitcherAim : MonoBehaviour
     {currentPlayer = activePlayerManager.GetCurrentPlayer();  
         if (currentPlayer == player01)
         {    
+            CanvasAim.enabled = false;
+            Canvas.enabled = true;
             if (aimAction.IsPressed())
             {
                 CanvasAim.enabled = true;
@@ -64,19 +62,9 @@ public class CameraSwitcherAim : MonoBehaviour
             }
         }
         if (currentPlayer == player02)
-        { 
-            if (aimAction.IsPressed())
-            {
-                CanvasAim.enabled = true;
-                Canvas.enabled = false;
-                aimCamera02.Priority = priorityHigh;
-            }
-            else if (aimAction.WasReleasedThisFrame())
-            {
-                CanvasAim.enabled = false;
-                Canvas.enabled = true;
-                aimCamera02.Priority = priorityLow;
-            }
+        {    
+            CanvasAim.enabled = false;
+            Canvas.enabled = false;
         }
     }
 }

@@ -7,14 +7,14 @@ using TMPro;
 
 public class ActivePlayerManager : MonoBehaviour
 {
-    enum GameState
+    enum TurnState
     {
         PlayerTurn,
         WaitingForInput,
         TurnChange,
     }
 
-    [SerializeField] GameState currentState;
+    [SerializeField] TurnState currentState;
     [SerializeField] public ActivePlayer player01;
     [SerializeField] public ActivePlayer player02;
     [SerializeField] private float maxTimePerTurn;
@@ -25,8 +25,8 @@ public class ActivePlayerManager : MonoBehaviour
     [SerializeField] GameObject buttonToPlay;
     GameObject buttonToPlayEnable;
 
-    [SerializeField] 
-    private CameraController cameraController;
+    [SerializeField] private CameraController cameraController;
+    
     
     private ActivePlayer currentPlayer;
     private float currentTurnTime;
@@ -40,7 +40,7 @@ public class ActivePlayerManager : MonoBehaviour
 
         currentPlayer = player01;
         
-        currentState = GameState.PlayerTurn;
+        currentState = TurnState.PlayerTurn;
         buttonToPlay.gameObject.SetActive(false);
         buttonToPlayEnable = buttonToPlay.gameObject;
     }
@@ -49,13 +49,13 @@ public class ActivePlayerManager : MonoBehaviour
     {
         switch (currentState)
         {
-            case GameState.PlayerTurn:
+            case TurnState.PlayerTurn:
                 StartGame();
                 break;
-            case GameState.WaitingForInput:
+            case TurnState.WaitingForInput:
                 InputToPlay();
                 break;
-            case GameState.TurnChange:
+            case TurnState.TurnChange:
                 TurnOver();
                 break;
         }
@@ -68,7 +68,7 @@ public class ActivePlayerManager : MonoBehaviour
         {
             ChangeCamera();
             PlayerCannotPlay();
-            currentState = GameState.WaitingForInput;
+            currentState = TurnState.WaitingForInput;
         }
         UpdateTimeVisuals();
     }
@@ -86,12 +86,12 @@ public class ActivePlayerManager : MonoBehaviour
         PlayerCanPlay();
         ChangeTurn();
         ResetTimers();
-        currentState = GameState.PlayerTurn;
+        currentState = TurnState.PlayerTurn;
     }
 
     public void GameStateTurnChange()
     {
-        currentState = GameState.TurnChange;
+        currentState = TurnState.TurnChange;
     }
 
     private void PlayerCanPlay()

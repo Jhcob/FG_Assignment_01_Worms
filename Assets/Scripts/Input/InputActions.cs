@@ -98,6 +98,15 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Any"",
+                    ""type"": ""Button"",
+                    ""id"": ""3b64790c-3f08-41fa-9ce0-fb67bdf6769b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -428,6 +437,28 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""nextTurn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4769a117-14c6-4685-89f5-916616f5dcdd"",
+                    ""path"": ""<Keyboard>/anyKey"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Gamepad"",
+                    ""action"": ""Any"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9763b28e-bfab-44d8-a12b-8c722b4775f0"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Any"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1023,6 +1054,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         m_Player_SwitchTurn = m_Player.FindAction("SwitchTurn", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_nextTurn = m_Player.FindAction("nextTurn", throwIfNotFound: true);
+        m_Player_Any = m_Player.FindAction("Any", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1102,6 +1134,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SwitchTurn;
     private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_nextTurn;
+    private readonly InputAction m_Player_Any;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
@@ -1114,6 +1147,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         public InputAction @SwitchTurn => m_Wrapper.m_Player_SwitchTurn;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputAction @nextTurn => m_Wrapper.m_Player_nextTurn;
+        public InputAction @Any => m_Wrapper.m_Player_Any;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1147,6 +1181,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @nextTurn.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextTurn;
                 @nextTurn.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextTurn;
                 @nextTurn.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextTurn;
+                @Any.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAny;
+                @Any.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAny;
+                @Any.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAny;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1175,6 +1212,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @nextTurn.started += instance.OnNextTurn;
                 @nextTurn.performed += instance.OnNextTurn;
                 @nextTurn.canceled += instance.OnNextTurn;
+                @Any.started += instance.OnAny;
+                @Any.performed += instance.OnAny;
+                @Any.canceled += instance.OnAny;
             }
         }
     }
@@ -1339,6 +1379,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         void OnSwitchTurn(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnNextTurn(InputAction.CallbackContext context);
+        void OnAny(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

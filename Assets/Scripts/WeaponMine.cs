@@ -8,53 +8,30 @@ public class WeaponMine : MonoBehaviour
     //Bullet
     [SerializeField] private GameObject MinePrefab;    
     [SerializeField] private Transform MineSpawn;
-    [SerializeField] private Transform MineParent;
+    // [SerializeField] private Transform MineParent;
     [SerializeField] private float mineDamage;
+    private float mineDelayBase;
+    [SerializeField] public float mineDelay = 2f;
 
 
-
+    private void Update()
+    {
+        if (mineDelayBase > 0)
+        {
+            mineDelayBase -= Time.deltaTime;
+        }
+    }
 
     public void DropMine()
     {
-        Debug.Log("dropped mine");
-        // RaycastHit hit;
-        
-        GameObject bullet = GameObject.Instantiate(MinePrefab, MineSpawn.position, Quaternion.identity, MineParent);
-        // MineController mineController = bullet.GetComponent<MineController>();
-        
-        // ActivePlayerHealth activePlayerHealth = hit.collider.GetComponent<ActivePlayerHealth>();
-        //
-        // if (activePlayerHealth != null)
-        // {
-        //     activePlayerHealth.TakeDamage(mineDamage);
-        // }
+        if (mineDelayBase <= 0f)
+        {
+            GameObject bullet = GameObject.Instantiate(MinePrefab, MineSpawn.position, Quaternion.identity);
+            Debug.Log("dropped mine");
+            mineDelayBase = mineDelay;
+        }
 
     }
     
     
-    
-    
-    
-    // public void FireProjectile()
-    // {
-    //     RaycastHit hit;
-    //     GameObject bullet = GameObject.Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity, bulletParent);
-    //     BulletController bulletController = bullet.GetComponent<BulletController>();
-    //     
-    //     if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, Mathf.Infinity))
-    //     {
-    //         bulletController.target = hit.point;
-    //         bulletController.hit = true;
-    //         ActivePlayerHealth activePlayerHealth = hit.collider.GetComponent<ActivePlayerHealth>();
-    //         if (activePlayerHealth != null)
-    //         {
-    //             activePlayerHealth.TakeDamage(weaponDamage);
-    //         }
-    //     }
-    //     else
-    //     {
-    //         bulletController.target = cameraTransform.position + cameraTransform.forward * bulletMissDistance;
-    //         bulletController.hit = false ;
-    //     }  
-    // }
 }
