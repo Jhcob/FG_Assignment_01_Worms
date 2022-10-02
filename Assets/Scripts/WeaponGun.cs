@@ -41,6 +41,11 @@ public class WeaponGun : MonoBehaviour
                 {
                     activePlayerHealth.TakeDamage(weaponDamage);
                 }
+                AI_Enemy AIHealth = hit.collider.GetComponent<AI_Enemy>();
+                if (AIHealth != null)
+                {
+                    AIHealth.TakeDamage(weaponDamage);
+                }
             }
             else
             {

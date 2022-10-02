@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputShoot : MonoBehaviour
 {
-    [SerializeField] private ActivePlayerManager manager;   
+    [SerializeField] private TurnManager manager;   
     [SerializeField] private WeaponGun weaponGun;
     [SerializeField] private WeaponMine weaponMine;
     [SerializeField] public ActivePlayer player01;

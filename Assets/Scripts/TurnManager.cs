@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class ActivePlayerManager : MonoBehaviour
+public class TurnManager : MonoBehaviour
 {
     enum TurnState
     {
@@ -24,6 +24,7 @@ public class ActivePlayerManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI seconds;
     [SerializeField] GameObject buttonToPlay;
     GameObject buttonToPlayEnable;
+    private int turnCount = 1;
 
     [SerializeField] private CameraController cameraController;
     
@@ -59,6 +60,7 @@ public class ActivePlayerManager : MonoBehaviour
                 TurnOver();
                 break;
         }
+        //Debug.Log(turnCount.ToString());
     }
 
     private void StartGame()
@@ -83,10 +85,16 @@ public class ActivePlayerManager : MonoBehaviour
     }
     private void TurnOver()
     {
+        turnCount++;
         PlayerCanPlay();
         ChangeTurn();
         ResetTimers();
         currentState = TurnState.PlayerTurn;
+    }
+
+    public int TurnNumber()
+    {
+        return turnCount;
     }
 
     public void GameStateTurnChange()

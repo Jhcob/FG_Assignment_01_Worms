@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ButtonToChangeTurn : MonoBehaviour
 {
     [SerializeField] private Button _button;
-    [SerializeField] private ActivePlayerManager manager;
+    [SerializeField] private TurnManager manager;
     private void Start()
     {
         _button.onClick.AddListener(ButtonPressed);

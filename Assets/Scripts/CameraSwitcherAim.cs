@@ -9,7 +9,7 @@ using Cinemachine;
 public class CameraSwitcherAim : MonoBehaviour
 {
     [SerializeField]
-    private ActivePlayerManager activePlayerManager;    
+    private TurnManager activePlayerManager;    
     [SerializeField]
     private PlayerInput inputManager;
 

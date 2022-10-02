@@ -13,9 +13,9 @@ public class CameraController : MonoBehaviour
     private CinemachineVirtualCamera Player02;
     
     [SerializeField]
-    private ActivePlayerManager turnManager;
+    private TurnManager turnManager;
 
-    private void ChangeTurnInput(ActivePlayerManager myManager)
+    private void ChangeTurnInput(TurnManager myManager)
     {
         turnManager = myManager;
     }

@@ -9,15 +9,24 @@ public class GameManager : MonoBehaviour
 {
     enum GameState
     {
-        Intro,
         Game,
         Ending
     }
     [SerializeField] GameState currentState;
-    [SerializeField] public ActivePlayer player01;
-    [SerializeField] public ActivePlayer player02;
+    [SerializeField] private ActivePlayer player01;
+    [SerializeField] private ActivePlayer player02;
     
-    [SerializeField] private ActivePlayerManager manager;  
+    //Canvas TurnCount
+    [SerializeField] private GameObject canvasRound1;
+    [SerializeField] private GameObject canvasRound2;
+    [SerializeField] private GameObject canvasRound3;
+    [SerializeField] private ActivePlayerHealth player01Health;
+    [SerializeField] private ActivePlayerHealth player02Health;
+    
+    
+    
+    [SerializeField] private TurnManager turnManager;  
+    [SerializeField] private LevelManager levelManager;  
 
 
     //Input var
@@ -25,12 +34,11 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        player01.AssignManager(manager);
-        player02.AssignManager(manager);
+        player01.AssignManager(turnManager);
+        player02.AssignManager(turnManager);
         playerInput = GetComponent<PlayerInput>();
 
-        
-        currentState = GameState.Intro;
+        currentState = GameState.Game;
     }
 
     void LateUpdate()
@@ -41,21 +49,49 @@ public class GameManager : MonoBehaviour
                 Game();
                 break;
             case GameState.Ending:
-                Ending();
+                EndingTime();
                 break;
         }
+        Debug.Log("Current turn is "+ turnManager.TurnNumber().ToString());
     }
 
-    private void Intro()
-    {
-
-    }
     private void Game()
     {
-        
+        if (turnManager.TurnNumber() == 3)
+        {
+            canvasRound1.gameObject.SetActive(false);
+            canvasRound2.gameObject.SetActive(true);
+        }
+        if (turnManager.TurnNumber() == 5)
+        {
+            canvasRound2.gameObject.SetActive(false);
+            canvasRound3.gameObject.SetActive(true);
+        }   
+        if (turnManager.TurnNumber() == 7)
+        {
+            currentState = GameState.Ending;
+        }
     }
-    private void Ending()
+    private void EndingTime()
     {
-        
+        levelManager.Player02Win();
+    }    
+    
+    
+    private void EndingDeadPlayer01()
+    {
+        if ( player01Health.currentHealth <= 0)
+        {
+            levelManager.Player02Win();
+
+        }
+    }
+    private void EndingDeadPlayer02()
+    {
+        if ( player01Health.currentHealth <= 0)
+        {
+            levelManager.Player01Win();
+
+        }
     }
 }

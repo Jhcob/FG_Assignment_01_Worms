@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class LocomotionInputController : MonoBehaviour
 {    
-    [SerializeField] private ActivePlayerManager manager;
+    [SerializeField] private TurnManager manager;
 
     private float speed = 7f; // Starting speed
     [SerializeField] [Range(3f, 10f)]private float movementSpeed = 6f; 

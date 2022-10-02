@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ActivePlayer : MonoBehaviour
 {
-    private ActivePlayerManager manager;
+    private TurnManager manager;
     
-    public void AssignManager(ActivePlayerManager theManager)
+    public void AssignManager(TurnManager theManager)
     {
         manager = theManager;
     }
