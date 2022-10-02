@@ -13,37 +13,67 @@ public class TurnManager : MonoBehaviour
         WaitingForInput,
         TurnChange,
     }
-
+    
+    [Header("Managers")]
+    [SerializeField] private GameManager gameManager;
+    [SerializeField] private CameraController cameraController;
+    
+    [Header("References")]
     [SerializeField] TurnState currentState;
     [SerializeField] public ActivePlayer player01;
     [SerializeField] public ActivePlayer player02;
-    [SerializeField] private float maxTimePerTurn;
+    [SerializeField] private ActivePlayerHealth player01Health;
+    [SerializeField] private ActivePlayerHealth player02Health;
+    private ActivePlayer currentPlayer;
+
     
     [Header("UI")]
-    [SerializeField] private Image clock;
-    [SerializeField] private TextMeshProUGUI seconds;
+    [SerializeField] private Image timeBar;
     [SerializeField] GameObject buttonToPlay;
-    GameObject buttonToPlayEnable;
-    private int turnCount = 1;
-
-    [SerializeField] private CameraController cameraController;
+    [SerializeField] GameObject hudHealthplayer01;
+    [SerializeField] GameObject hudHealthplayer02;    
+    [SerializeField] GameObject hudAmmoPlayer02;
+    [SerializeField] GameObject tooClose;
+    [SerializeField] GameObject meleeAttack;
     
-    
-    private ActivePlayer currentPlayer;
+    [Header("TurnSetting")]
+    [SerializeField] private float maxTimePerTurn;
+    [SerializeField] private float TurnDelayAfterDamage = 3f;
+    public int turnCount;
     private float currentTurnTime;
-    // private float currentDelay;
+
+    [Header("Check distance between players")]
+    [SerializeField] private LayerMask PlayerMine;
+    [SerializeField] private float radiusDeath = 2f;
+    [SerializeField] private Transform player01Position;
+    [SerializeField] private int melee =1;
+
+    private bool neverDone;
+    private bool neverDoneMeleePlayer01;
     
+    [Header("DangerZone")]
+    [SerializeField] private DangerZone dangerZone;
+    [SerializeField] private float DangerZoneDelay = 2f;
 
     private void Start()
     {
+        turnCount = 1;
+        neverDone = true;
+        neverDoneMeleePlayer01 = true;
         player01.AssignManager(this);
         player02.AssignManager(this);
 
-        currentPlayer = player01;
+        currentPlayer = player02;
         
         currentState = TurnState.PlayerTurn;
         buttonToPlay.gameObject.SetActive(false);
-        buttonToPlayEnable = buttonToPlay.gameObject;
+    }
+
+    private void Update()
+    {
+        Player02MineDamaged();
+        DamageDistance();
+        GetCurrentPlayer();
     }
 
     void LateUpdate()
@@ -60,7 +90,6 @@ public class TurnManager : MonoBehaviour
                 TurnOver();
                 break;
         }
-        //Debug.Log(turnCount.ToString());
     }
 
     private void StartGame()
@@ -68,15 +97,26 @@ public class TurnManager : MonoBehaviour
         currentTurnTime += Time.deltaTime;
         if (currentTurnTime >= maxTimePerTurn)
         {
-            ChangeCamera();
-            PlayerCannotPlay();
-            currentState = TurnState.WaitingForInput;
+            TurnStart();
         }
         UpdateTimeVisuals();
     }
+
+    private void TurnStart()
+    {
+        hudHealthplayer01.gameObject.SetActive(false);
+        hudHealthplayer02.gameObject.SetActive(false);           
+        tooClose.gameObject.SetActive(false);
+        meleeAttack.gameObject.SetActive(false);
+
+        ChangeCamera();
+        PlayerCannotPlay();
+        currentState = TurnState.WaitingForInput;
+    }
+
     private void InputToPlay()
     {
-        buttonToPlayEnable.SetActive(true);
+        buttonToPlay.gameObject.SetActive(true);
         currentTurnTime = 0f;
         if (Input.GetKeyDown(KeyCode.T))
         {
@@ -85,6 +125,8 @@ public class TurnManager : MonoBehaviour
     }
     private void TurnOver()
     {
+        Invoke("DangerZoneGrow", DangerZoneDelay );
+
         turnCount++;
         PlayerCanPlay();
         ChangeTurn();
@@ -118,14 +160,21 @@ public class TurnManager : MonoBehaviour
 
     public void ChangeTurn()
     {
-        buttonToPlayEnable.SetActive(false);
+        buttonToPlay.gameObject.SetActive(false);
 
         if (player01 == currentPlayer)
         {
+            hudHealthplayer01.gameObject.SetActive(false);
+            hudHealthplayer02.gameObject.SetActive(true);
+            hudAmmoPlayer02.gameObject.SetActive(true);
+            
             currentPlayer = player02;
         }
         else if (player02 == currentPlayer)
         {
+            hudHealthplayer01.gameObject.SetActive(true);
+            hudHealthplayer02.gameObject.SetActive(false);
+            hudAmmoPlayer02.gameObject.SetActive(false);
             currentPlayer = player01;
         }
 
@@ -141,12 +190,60 @@ public class TurnManager : MonoBehaviour
     private void ResetTimers()
     {
         currentTurnTime = 0;
-        // currentDelay = timeBetweenTurns;
     }
 
     private void UpdateTimeVisuals()
     {
-        clock.fillAmount = 1 - (currentTurnTime / maxTimePerTurn);
-        seconds.text = Mathf.RoundToInt(maxTimePerTurn - currentTurnTime).ToString();
+        timeBar.fillAmount = 1 - (currentTurnTime / maxTimePerTurn);
+       // seconds.text = Mathf.RoundToInt(maxTimePerTurn - currentTurnTime).ToString();
+    }
+
+    private void Player02MineDamaged()
+    {
+        if (neverDone)
+        {
+            if (player02Health.CurrentLife() == 1)
+            {
+                
+                Invoke("DamageChangeTurn", TurnDelayAfterDamage);
+                neverDone = false;
+            }
+        }
+    }
+
+    public void DamageChangeTurn()
+    {
+        turnCount++;
+        TurnStart();
+    }
+
+    private void DamageDistance()
+    {
+        if (Physics.CheckSphere(player01Position.position, radiusDeath, PlayerMine))
+        {
+            if (neverDoneMeleePlayer01 && player01 == currentPlayer)
+            {
+                player02Health.GetComponent<ActivePlayerHealth>().TakeDamage(melee);
+                meleeAttack.gameObject.SetActive(true);
+                ResetTimers();
+                neverDoneMeleePlayer01 = false;
+            }
+
+            if (player02 == currentPlayer)
+            {
+                tooClose.gameObject.SetActive(true);
+                ResetTimers();
+                Invoke("TooCloseToPlayer01", 3f);
+            }
+        }
+    }
+    private void DangerZoneGrow()
+    {
+        dangerZone.StartGrow();
+    }
+
+    private void TooCloseToPlayer01()
+    {
+        gameManager.GameOver_player01Win();
     }
 }

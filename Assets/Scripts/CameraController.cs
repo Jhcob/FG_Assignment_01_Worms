@@ -24,7 +24,7 @@ public class CameraController : MonoBehaviour
     {
         CameraSwitcher.Register(Player01);
         CameraSwitcher.Register(Player02);
-        CameraSwitcher.SwitchCamera(Player01);
+        CameraSwitcher.SwitchCamera(Player02);
     }
 
     public void CameraSwitch()

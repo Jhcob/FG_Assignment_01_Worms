@@ -1,22 +1,15 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectTracker : MonoBehaviour
 {
     public GameObject goTrackingObject;
-    public GameObject goIndicator;
     public Vector3 v3AverageVelocity;
     public Vector3 v3AverageAcceleration;
 
     private Vector3 v3PrevVel;
     private Vector3 v3PrevAccel;
     private Vector3 v3PrevPos;
-
-    private void Start()
-    {
-        
-    }
 
     private void LateUpdate()
     {
@@ -38,8 +31,6 @@ public class ObjectTracker : MonoBehaviour
         v3PrevPos = goTrackingObject.transform.position;
         v3PrevVel = v3Velocity;
         v3PrevAccel = v3Accel;
-
-
     }
 
     public Vector3 GetProjectedPosition(float fTime)
@@ -48,9 +39,7 @@ public class ObjectTracker : MonoBehaviour
 
         //X0 + v0 * t + 1/2 a t^2
         v3Ret = goTrackingObject.transform.position + (v3AverageVelocity * Time.deltaTime * (fTime / Time.deltaTime)) + (0.5f * v3AverageAcceleration * Time.deltaTime * Mathf.Pow(fTime / Time.deltaTime, 2));
-        goIndicator.transform.position = v3Ret;
 
         return v3Ret;
     }
-
 }

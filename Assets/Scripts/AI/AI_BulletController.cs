@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AI_BulletController : MonoBehaviour
 {
@@ -12,7 +10,7 @@ public class AI_BulletController : MonoBehaviour
     
     [SerializeField] private float timeToDestroy = 0.3f;
     
-    [SerializeField] private float weaponDamage = 20f;
+    [SerializeField] private int weaponDamage = 1;
 
 
     // Update is called once per frame
@@ -43,10 +41,6 @@ public class AI_BulletController : MonoBehaviour
         {
             ActivePlayerHealth activePlayerHealth = other.gameObject.GetComponent<ActivePlayerHealth>();
             activePlayerHealth.TakeDamage(weaponDamage);
-
         }
-
- 
-        
     }
 }

@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3d6175e68b73f2498f88cfb2f1a8030, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mineDamage: 50
+  mineDamage: 2
   explosionFX: {fileID: 1067084896986293591}
 --- !u!135 &3001162516209043819
 SphereCollider:

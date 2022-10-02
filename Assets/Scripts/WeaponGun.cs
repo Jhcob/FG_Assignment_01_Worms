@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponGun : MonoBehaviour
@@ -10,7 +7,7 @@ public class WeaponGun : MonoBehaviour
     [SerializeField] private Transform bulletSpawn;
     [SerializeField] private Transform bulletParent;
     [SerializeField] private float bulletMissDistance = 25f;
-    [SerializeField] private float weaponDamage;
+    [SerializeField] private int weaponDamage =1;
     private float gunDelayBase;
     [SerializeField] private float gunDelay = 0.5f;
     public Transform cameraTransform;

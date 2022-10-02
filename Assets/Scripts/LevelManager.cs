@@ -1,31 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-
-
 
 public class LevelManager : MonoBehaviour
 {
     private int currentSceneIndex;
-    // private InputAction AnyAction;
-    // private PlayerInput playerInput;
-
-    // Start is called before the first frame update
-    // void Start()
-    // {
-    //     playerInput = GetComponent<PlayerInput>();
-    //     AnyAction = playerInput.actions["Any"];
-
-    
-    // Update is called once per frame
-
-    private void Awake()
-    {
-
-    }
 
     void Update()
     {
@@ -41,7 +19,6 @@ public class LevelManager : MonoBehaviour
         {
             if (Input.anyKey)
             {
-                
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             }
         }
@@ -55,9 +32,7 @@ public class LevelManager : MonoBehaviour
         {
             if (Input.anyKey)
             {
-                
                 Restart();
-
             }
         }
     }
@@ -82,5 +57,4 @@ public class LevelManager : MonoBehaviour
     {
         SceneManager.LoadScene("GameOverScreen_Chick");
     }
-    
 }

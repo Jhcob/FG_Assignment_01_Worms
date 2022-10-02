@@ -22,23 +22,22 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject canvasRound3;
     [SerializeField] private ActivePlayerHealth player01Health;
     [SerializeField] private ActivePlayerHealth player02Health;
-    
-    
-    
+
     [SerializeField] private TurnManager turnManager;  
     [SerializeField] private LevelManager levelManager;  
-
-
-    //Input var
-    private PlayerInput playerInput;
 
     private void Awake()
     {
         player01.AssignManager(turnManager);
         player02.AssignManager(turnManager);
-        playerInput = GetComponent<PlayerInput>();
 
         currentState = GameState.Game;
+    }
+
+    private void Update()
+    {
+        EndingDeadPlayer01();
+        EndingDeadPlayer02();
     }
 
     void LateUpdate()
@@ -49,13 +48,10 @@ public class GameManager : MonoBehaviour
                 Game();
                 break;
             case GameState.Ending:
-                EndingTime();
+                GameOver_player02Win();
                 break;
         }
         Debug.Log("Current turn is "+ turnManager.TurnNumber().ToString());
-
-        EndingDeadPlayer01();
-        EndingDeadPlayer02();
     }
 
     private void Game()
@@ -72,29 +68,36 @@ public class GameManager : MonoBehaviour
         }   
         if (turnManager.TurnNumber() == 7)
         {
-            currentState = GameState.Ending;
+            //player02victory
+            levelManager.Player02Win();
         }
     }
-    private void EndingTime()
-    {
-        levelManager.Player02Win();
-    }    
-    
+
     
     private void EndingDeadPlayer01()
     {
-        if ( player01Health.currentHealth <= 0)
+        if ( player01Health.health <= 0)
         {
-            levelManager.Player02Win();
+            GameOver_player02Win();
 
         }
     }
     private void EndingDeadPlayer02()
     {
-        if ( player02Health.currentHealth <= 0)
+        if ( player02Health.health <= 0)
         {
-            levelManager.Player01Win();
-
+            GameOver_player01Win();
         }
     }
+
+    public void GameOver_player01Win()
+    {
+        levelManager.Player01Win();
+    }
+    
+    private void GameOver_player02Win()
+    {
+        levelManager.Player02Win();
+    }    
+
 }

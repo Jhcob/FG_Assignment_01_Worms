@@ -1,24 +1,17 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Cinemachine;
 using UnityEngine;
-using Random = UnityEngine.Random;
+using UnityEngine.UI;
 
 public class MineController : MonoBehaviour
 {
-    // [SerializeField] private float speed = 1f;
-    [SerializeField] private float mineDamage;
+    [SerializeField] private int mineDamage = 2;
     private ParticleSystem myParticleSystem;
     [SerializeField] private ParticleSystem explosionFX;
+    [SerializeField] private Image mines;
     private float timeToDestroy = 0.6f;
-
-
 
     private void OnEnable()
     {
         explosionFX.Stop();
-
     }
 
     private void OnTriggerEnter(Collider other)
@@ -31,10 +24,5 @@ public class MineController : MonoBehaviour
             explosionFX.Play();
             Destroy(gameObject, timeToDestroy);
         }
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
-
     }
 }
