@@ -445,7 +445,7 @@ MonoBehaviour:
   currentState: 0
   player01: {fileID: 1395076434}
   player02: {fileID: 563579750}
-  maxTimePerTurn: 1
+  maxTimePerTurn: 10
   clock: {fileID: 1000994128}
   seconds: {fileID: 893352378}
   buttonToPlay: {fileID: 1747168717}
@@ -2271,7 +2271,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.09610632, y: 0, z: 0, w: 0.9953711}
-  m_LocalPosition: {x: -30.941944, y: 2.1045732, z: -3.0730338}
+  m_LocalPosition: {x: -30.941944, y: 2.1045732, z: -3.0730336}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3713,7 +3713,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 703542111732395184, guid: 97d6f019f496a684f972b5d9fb42b3b5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.0730338
+      value: -3.0730336
       objectReference: {fileID: 0}
     - target: {fileID: 703542111732395184, guid: 97d6f019f496a684f972b5d9fb42b3b5, type: 3}
       propertyPath: m_LocalRotation.w

@@ -30,7 +30,7 @@ public class LevelManager : MonoBehaviour
     void Update()
     {
         TitleScreen();
-Debug.Log(currentSceneIndex.ToString());
+        GameOverScreen();
     }
 
     void TitleScreen()
@@ -41,7 +41,23 @@ Debug.Log(currentSceneIndex.ToString());
         {
             if (Input.anyKey)
             {
+                
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            }
+        }
+    }
+
+    void GameOverScreen()
+    {
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex; 
+
+        if (currentSceneIndex == 2 || currentSceneIndex == 3)
+        {
+            if (Input.anyKey)
+            {
+                
+                Restart();
+
             }
         }
     }

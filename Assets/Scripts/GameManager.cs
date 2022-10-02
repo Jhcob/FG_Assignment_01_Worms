@@ -53,6 +53,9 @@ public class GameManager : MonoBehaviour
                 break;
         }
         Debug.Log("Current turn is "+ turnManager.TurnNumber().ToString());
+
+        EndingDeadPlayer01();
+        EndingDeadPlayer02();
     }
 
     private void Game()
@@ -88,7 +91,7 @@ public class GameManager : MonoBehaviour
     }
     private void EndingDeadPlayer02()
     {
-        if ( player01Health.currentHealth <= 0)
+        if ( player02Health.currentHealth <= 0)
         {
             levelManager.Player01Win();
 
