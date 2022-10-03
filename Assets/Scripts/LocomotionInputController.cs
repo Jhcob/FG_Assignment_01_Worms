@@ -8,7 +8,9 @@ using UnityEngine.InputSystem;
 public class LocomotionInputController : MonoBehaviour
 {    
     [SerializeField] private TurnManager manager;
-
+    [SerializeField] public ActivePlayer player01;
+    [SerializeField] public ActivePlayer player02;
+    
     private float speed = 7f; // Starting speed
     [SerializeField] [Range(3f, 10f)]private float movementSpeed = 6f; 
     [SerializeField] [Range(7f, 20f)] private float sprintSpeed = 12f;
@@ -30,10 +32,13 @@ public class LocomotionInputController : MonoBehaviour
     private InputAction moveAction;
     private InputAction jumpAction;
     private InputAction sprintAction;
-    //public Animator animator;
+    public Animator animatorChick;
+    public Animator animatorSpider;
 
     private void Start()
     {
+        player01.AssignManager(manager);
+        player02.AssignManager(manager);
         playerInput = GetComponent<PlayerInput>();
         
         moveAction = playerInput.actions["Move"];
@@ -42,7 +47,8 @@ public class LocomotionInputController : MonoBehaviour
 
         cameraTransform = Camera.main.transform;
 
-        //animator = GetComponent<Animator>();
+        // animatorChick = GetComponent<Animator>();
+        // animatorSnake = GetComponent<Animator>();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -56,6 +62,7 @@ public class LocomotionInputController : MonoBehaviour
     public void Move()
     {
         ActivePlayer currentPlayer = manager.GetCurrentPlayer();
+        
 
         // Getting input Vector2 for moving
         Vector2 inputMove = moveAction.ReadValue<Vector2>();
@@ -81,8 +88,27 @@ public class LocomotionInputController : MonoBehaviour
         currentPlayer.GetComponent<CharacterController>().transform.rotation = Quaternion.Lerp( currentPlayer.GetComponent<CharacterController>().transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         
         currentPlayer.GetComponent<CharacterController>().Move((velocity * Time.deltaTime * speed) + new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
+
         
+        var animSpeed = ((Mathf.Abs(velocity.x) + Mathf.Abs(velocity.z))) * speed * Time.deltaTime * 100f;
+
+        animatorChick.GetComponent<Animator>().SetFloat("speed", animSpeed);
+        animatorSpider.GetComponent<Animator>().SetFloat("speed", animSpeed);
     }
+
+    // private void AnimSpeed()
+    // {
+    //     var SpiderSpeed = (player01.GetComponent<CharacterController>().velocity.x * speed +
+    //                       player01.GetComponent<CharacterController>().velocity.y * speed) * Time.deltaTime;
+    //
+    //     var chickSpeed = (player02.GetComponent<CharacterController>().velocity.x * speed +
+    //                      player02.GetComponent<CharacterController>().velocity.y * speed) * Time.deltaTime;
+    //
+    //
+    //     animatorChick.GetComponent<Animator>().SetFloat("speed", SpiderSpeed);
+    //     animatorSpider.GetComponent<Animator>().SetFloat("speed", chickSpeed);
+    // }
+
     public void Jump()
     {
         ActivePlayer currentPlayer = manager.GetCurrentPlayer();

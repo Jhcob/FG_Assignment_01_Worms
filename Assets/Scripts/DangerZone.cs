@@ -32,13 +32,13 @@ public class DangerZone : MonoBehaviour
     {
         float timer = 0;
         timer += Time.deltaTime;
-        dangerTransform.localScale += new Vector3(1, 1, 1) * Time.deltaTime * growFactor;
+        dangerTransform.localScale += new Vector3(1, 0, 1) * Time.deltaTime * growFactor;
     }
     
     private void OnTriggerEnter(Collider other)
     {
         ActivePlayerHealth activePlayerHealth = other.GetComponent<ActivePlayerHealth>();
-        if (activePlayerHealth != null && (other.gameObject.tag == "Player01") || (other.gameObject.tag == "Player"))
+        if (activePlayerHealth != null && ((other.gameObject.tag == "Player01") || (other.gameObject.tag == "Player02")))
         {
             Debug.Log("hit player");
             activePlayerHealth.TakeDamage(DangerZoneDamage);
