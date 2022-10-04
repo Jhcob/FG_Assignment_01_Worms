@@ -12,15 +12,18 @@ public class PlayerInputShoot : MonoBehaviour
     [SerializeField] private WeaponMine weaponMine;
     [SerializeField] public ActivePlayer player01;
     [SerializeField] public ActivePlayer player02;
-    private InputAction FireAction;
+    private InputAction sireAction, specialAction;
     private PlayerInput playerInput;
-
+    private ActivePlayer currentPlayer;
 
     // Start is called before the first frame update
     void Awake()
     {
+        currentPlayer = manager.GetCurrentPlayer();
+
         playerInput = GetComponent<PlayerInput>();
-        FireAction = playerInput.actions["Fire"];
+        sireAction = playerInput.actions["Fire"];
+        specialAction = playerInput.actions["Special"];
     }
 
     private void Start()
@@ -36,7 +39,7 @@ public class PlayerInputShoot : MonoBehaviour
 
     public void Shoot()
     {
-        if (FireAction.triggered)
+        if (sireAction.triggered)
         {
             ActivePlayer currentPlayer = manager.GetCurrentPlayer();
             if (currentPlayer == player01)
@@ -44,6 +47,19 @@ public class PlayerInputShoot : MonoBehaviour
                 weaponGun.FireProjectile();
 
             }
+            if (currentPlayer == player02)
+            {
+                weaponMine.DropMine();
+
+            }
+        }
+    }
+
+    public void ShootSpecial()
+    {
+
+        if (specialAction.triggered)
+        {
             if (currentPlayer == player02)
             {
                 weaponMine.DropMine();

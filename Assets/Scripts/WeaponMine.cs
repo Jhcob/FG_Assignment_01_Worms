@@ -5,23 +5,40 @@ using UnityEngine.UI;
 public class WeaponMine : MonoBehaviour
 {
     [SerializeField] private TurnManager turnManager;    
-    [SerializeField] private GameObject MinePrefab;    
-    [SerializeField] private Transform MineSpawn;
+    [SerializeField] private GameObject minePrefab, roasterPrefab;    
+    [SerializeField] private Transform mineSpawn, roasterSpawn;
     private float mineDelayBase;
     [SerializeField] public float mineDelay = 2f;
     [SerializeField] private int minesMax;
     [SerializeField] private int mines;
     [SerializeField] private Image[] minesSprites;
+    [SerializeField] private Sprite roasterSprite;
 
     [SerializeField] private Sprite fullMine, emptyMine;
+    [SerializeField] private Sprite fullRoaster, emptyRoaster;
+    public bool isRoasterUsed;
 
+     
+     
     private void Update()
     {
-        ReloadMines();
+        ReloadAmmo();
         PlayerMines();
         if (mineDelayBase > 0)
         {
             mineDelayBase -= Time.deltaTime;
+        }
+    }
+
+    private void PlayerRoaster()
+    {
+        if (isRoasterUsed = false)
+        {
+            roasterSprite = emptyRoaster;
+        }
+        else
+        {
+            roasterSprite = fullRoaster;
         }
     }
 
@@ -55,11 +72,21 @@ public class WeaponMine : MonoBehaviour
         }
     }
 
-    public void ReloadMines()
+    public void ReloadAmmo()
     {
         if (turnManager.TurnNumber()%2 == 0)
         {
             mines = minesMax;
+            isRoasterUsed = false;
+        }
+    }
+
+    public void DropRoaster()
+    {
+        if (isRoasterUsed == false)
+        {
+            GameObject bullet = GameObject.Instantiate(roasterPrefab, roasterSpawn.position, Quaternion.identity);
+            Debug.Log("dropped roaster");
         }
     }
 
@@ -67,11 +94,10 @@ public class WeaponMine : MonoBehaviour
     {
         if (mines > 0)
         {
-            
             if (mineDelayBase <= 0f)
             {
                 mines--;
-                GameObject bullet = GameObject.Instantiate(MinePrefab, MineSpawn.position, Quaternion.identity);
+                GameObject bullet = GameObject.Instantiate(minePrefab, mineSpawn.position, Quaternion.identity);
                 Debug.Log("dropped mine");
                 mineDelayBase = mineDelay;
             }

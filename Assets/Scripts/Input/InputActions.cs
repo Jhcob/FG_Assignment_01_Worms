@@ -73,15 +73,6 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""SwitchTurn"",
-                    ""type"": ""Button"",
-                    ""id"": ""66268375-a4f2-4d79-8d67-ad084456c75b"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Aim"",
                     ""type"": ""Button"",
                     ""id"": ""899d7f5e-217b-4307-848f-61c437b643db"",
@@ -91,18 +82,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""nextTurn"",
+                    ""name"": ""Special"",
                     ""type"": ""Button"",
-                    ""id"": ""7e622e7b-b9c6-4858-b4f6-7ac5f9e26c1d"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Any"",
-                    ""type"": ""Button"",
-                    ""id"": ""3b64790c-3f08-41fa-9ce0-fb67bdf6769b"",
+                    ""id"": ""ad616ec1-f2ab-4c00-a4e5-a0f04f1f3e6f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -376,28 +358,6 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""c10dc5f4-3594-443f-bc9d-fc9994d41643"",
-                    ""path"": ""<Keyboard>/backspace"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""SwitchTurn"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3c13282a-6d26-4012-9b72-ee63556e29c9"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""SwitchTurn"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""1a2d0524-ffba-422a-bbb0-e6deec83708a"",
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": ""Press(behavior=2)"",
@@ -420,45 +380,23 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""7421a03b-70ca-4739-b8ea-8e6c873beb8c"",
-                    ""path"": ""<Keyboard>/enter"",
+                    ""id"": ""be2eb4fa-462a-4ac6-8167-838fd64371df"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""nextTurn"",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Special"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""9ec7c254-7562-4595-b8ae-b4675fb24e6e"",
+                    ""id"": ""c14354de-27da-4c82-a467-0bc3a28bff82"",
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""nextTurn"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4769a117-14c6-4685-89f5-916616f5dcdd"",
-                    ""path"": ""<Keyboard>/anyKey"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse;Gamepad"",
-                    ""action"": ""Any"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""9763b28e-bfab-44d8-a12b-8c722b4775f0"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Any"",
+                    ""action"": ""Special"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1051,10 +989,8 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
-        m_Player_SwitchTurn = m_Player.FindAction("SwitchTurn", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
-        m_Player_nextTurn = m_Player.FindAction("nextTurn", throwIfNotFound: true);
-        m_Player_Any = m_Player.FindAction("Any", throwIfNotFound: true);
+        m_Player_Special = m_Player.FindAction("Special", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1131,10 +1067,8 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Sprint;
-    private readonly InputAction m_Player_SwitchTurn;
     private readonly InputAction m_Player_Aim;
-    private readonly InputAction m_Player_nextTurn;
-    private readonly InputAction m_Player_Any;
+    private readonly InputAction m_Player_Special;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
@@ -1144,10 +1078,8 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
-        public InputAction @SwitchTurn => m_Wrapper.m_Player_SwitchTurn;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
-        public InputAction @nextTurn => m_Wrapper.m_Player_nextTurn;
-        public InputAction @Any => m_Wrapper.m_Player_Any;
+        public InputAction @Special => m_Wrapper.m_Player_Special;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1172,18 +1104,12 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Sprint.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
                 @Sprint.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
                 @Sprint.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
-                @SwitchTurn.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchTurn;
-                @SwitchTurn.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchTurn;
-                @SwitchTurn.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchTurn;
                 @Aim.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
                 @Aim.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
                 @Aim.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
-                @nextTurn.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextTurn;
-                @nextTurn.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextTurn;
-                @nextTurn.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextTurn;
-                @Any.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAny;
-                @Any.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAny;
-                @Any.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAny;
+                @Special.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpecial;
+                @Special.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpecial;
+                @Special.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpecial;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1203,18 +1129,12 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Sprint.started += instance.OnSprint;
                 @Sprint.performed += instance.OnSprint;
                 @Sprint.canceled += instance.OnSprint;
-                @SwitchTurn.started += instance.OnSwitchTurn;
-                @SwitchTurn.performed += instance.OnSwitchTurn;
-                @SwitchTurn.canceled += instance.OnSwitchTurn;
                 @Aim.started += instance.OnAim;
                 @Aim.performed += instance.OnAim;
                 @Aim.canceled += instance.OnAim;
-                @nextTurn.started += instance.OnNextTurn;
-                @nextTurn.performed += instance.OnNextTurn;
-                @nextTurn.canceled += instance.OnNextTurn;
-                @Any.started += instance.OnAny;
-                @Any.performed += instance.OnAny;
-                @Any.canceled += instance.OnAny;
+                @Special.started += instance.OnSpecial;
+                @Special.performed += instance.OnSpecial;
+                @Special.canceled += instance.OnSpecial;
             }
         }
     }
@@ -1376,10 +1296,8 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
-        void OnSwitchTurn(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
-        void OnNextTurn(InputAction.CallbackContext context);
-        void OnAny(InputAction.CallbackContext context);
+        void OnSpecial(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

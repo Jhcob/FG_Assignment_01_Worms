@@ -51,15 +51,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "SwitchTurn",
-                    "type": "Button",
-                    "id": "66268375-a4f2-4d79-8d67-ad084456c75b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Aim",
                     "type": "Button",
                     "id": "899d7f5e-217b-4307-848f-61c437b643db",
@@ -69,18 +60,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "nextTurn",
+                    "name": "Special",
                     "type": "Button",
-                    "id": "7e622e7b-b9c6-4858-b4f6-7ac5f9e26c1d",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Any",
-                    "type": "Button",
-                    "id": "3b64790c-3f08-41fa-9ce0-fb67bdf6769b",
+                    "id": "ad616ec1-f2ab-4c00-a4e5-a0f04f1f3e6f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -354,28 +336,6 @@
                 },
                 {
                     "name": "",
-                    "id": "c10dc5f4-3594-443f-bc9d-fc9994d41643",
-                    "path": "<Keyboard>/backspace",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "SwitchTurn",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3c13282a-6d26-4012-9b72-ee63556e29c9",
-                    "path": "<Gamepad>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "SwitchTurn",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "1a2d0524-ffba-422a-bbb0-e6deec83708a",
                     "path": "<Mouse>/rightButton",
                     "interactions": "Press(behavior=2)",
@@ -398,45 +358,23 @@
                 },
                 {
                     "name": "",
-                    "id": "7421a03b-70ca-4739-b8ea-8e6c873beb8c",
-                    "path": "<Keyboard>/enter",
+                    "id": "be2eb4fa-462a-4ac6-8167-838fd64371df",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "nextTurn",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Special",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "9ec7c254-7562-4595-b8ae-b4675fb24e6e",
+                    "id": "c14354de-27da-4c82-a467-0bc3a28bff82",
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "nextTurn",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4769a117-14c6-4685-89f5-916616f5dcdd",
-                    "path": "<Keyboard>/anyKey",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse;Gamepad",
-                    "action": "Any",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "9763b28e-bfab-44d8-a12b-8c722b4775f0",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Any",
+                    "action": "Special",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
