@@ -11,7 +11,6 @@ public class ActivePlayerHealth : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(numberOfHearts.ToString());
 
         PlayerHealth();
 

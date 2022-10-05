@@ -12,7 +12,7 @@ public class PlayerInputShoot : MonoBehaviour
     [SerializeField] private WeaponMine weaponMine;
     [SerializeField] public ActivePlayer player01;
     [SerializeField] public ActivePlayer player02;
-    private InputAction sireAction, specialAction;
+    private InputAction fireAction, specialAction;
     private PlayerInput playerInput;
     private ActivePlayer currentPlayer;
 
@@ -22,7 +22,7 @@ public class PlayerInputShoot : MonoBehaviour
         currentPlayer = manager.GetCurrentPlayer();
 
         playerInput = GetComponent<PlayerInput>();
-        sireAction = playerInput.actions["Fire"];
+        fireAction = playerInput.actions["Fire"];
         specialAction = playerInput.actions["Special"];
     }
 
@@ -35,11 +35,12 @@ public class PlayerInputShoot : MonoBehaviour
     private void Update()
     {
         Shoot();
+        ShootSpecial();
     }
 
     public void Shoot()
     {
-        if (sireAction.triggered)
+        if (fireAction.triggered)
         {
             ActivePlayer currentPlayer = manager.GetCurrentPlayer();
             if (currentPlayer == player01)
@@ -57,14 +58,12 @@ public class PlayerInputShoot : MonoBehaviour
 
     public void ShootSpecial()
     {
+        ActivePlayer currentPlayer = manager.GetCurrentPlayer();
 
-        if (specialAction.triggered)
+        Debug.Log("special!");
+        if (specialAction.triggered && currentPlayer == player02)
         {
-            if (currentPlayer == player02)
-            {
-                weaponMine.DropMine();
-
-            }
+            weaponMine.DropRoaster();
         }
     }
 }

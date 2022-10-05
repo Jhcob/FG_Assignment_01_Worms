@@ -24,6 +24,8 @@ public class LocomotionInputController : MonoBehaviour
     private float rotationVelocity;
     private float verticalVelocity;
     
+    
+    public Vector3 velocity;
     public Transform cameraTransform;
 
     private CharacterController characterController;
@@ -67,8 +69,8 @@ public class LocomotionInputController : MonoBehaviour
         // Getting input Vector2 for moving
         Vector2 inputMove = moveAction.ReadValue<Vector2>();
         
-        // normalise input direction
-        Vector3 velocity = new Vector3(inputMove.x, 0f, inputMove.y).normalized;
+        // input direction
+        velocity = new Vector3(inputMove.x, 0f, inputMove.y);
         
         // Sprint 
         if (sprintAction.IsPressed() && velocity.magnitude >= 0.1f  && currentPlayer.GetComponent<CharacterController>().isGrounded)
@@ -87,13 +89,21 @@ public class LocomotionInputController : MonoBehaviour
         Quaternion targetRotation = Quaternion.Euler(0, cameraTransform.eulerAngles.y, 0);
         currentPlayer.GetComponent<CharacterController>().transform.rotation = Quaternion.Lerp( currentPlayer.GetComponent<CharacterController>().transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         
+        // final move action
         currentPlayer.GetComponent<CharacterController>().Move((velocity * Time.deltaTime * speed) + new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
 
-        
+        // animation speed
         var animSpeed = ((Mathf.Abs(velocity.x) + Mathf.Abs(velocity.z))) * speed * Time.deltaTime * 100f;
 
-        animatorChick.GetComponent<Animator>().SetFloat("speed", animSpeed);
-        animatorSpider.GetComponent<Animator>().SetFloat("speed", animSpeed);
+        
+        if (player01 == currentPlayer)
+        {
+            animatorSpider.GetComponent<Animator>().SetFloat("speed", animSpeed);
+        }
+        if (player02 == currentPlayer)
+        {
+            animatorChick.GetComponent<Animator>().SetFloat("speed", animSpeed);
+        }
     }
 
     // private void AnimSpeed()

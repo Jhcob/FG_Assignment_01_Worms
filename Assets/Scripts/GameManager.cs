@@ -51,7 +51,6 @@ public class GameManager : MonoBehaviour
                 GameOver_player02Win();
                 break;
         }
-        Debug.Log("Current turn is "+ turnManager.TurnNumber().ToString());
     }
 
     private void Game()

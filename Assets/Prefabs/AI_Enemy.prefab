@@ -43,6 +43,8 @@ GameObject:
   - component: {fileID: 2867324407341111693}
   - component: {fileID: 2867324407341111690}
   - component: {fileID: 2867324407341111691}
+  - component: {fileID: 293031862}
+  - component: {fileID: 293031863}
   m_Layer: 7
   m_Name: AI_Enemy
   m_TagString: AI
@@ -130,6 +132,48 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &293031862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2867324407341111702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6de1d64aa3113498bd5971a5eb85a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goTrackingObject: {fileID: 7054045417505470958, guid: f8ba935efa820c142b1ae2ffb0921aa9, type: 3}
+  v3AverageVelocity: {x: 0, y: 0, z: 0}
+  v3AverageAcceleration: {x: 0, y: 0, z: 0}
+--- !u!114 &293031863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2867324407341111702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34496f717b234ac41ae20ac177549354, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goTarget: {fileID: 7054045417505470958, guid: f8ba935efa820c142b1ae2ffb0921aa9, type: 3}
+  prefProjectile: {fileID: 8523354859177158590, guid: 2a5c36f91c6ecbe4691e4dc34b0ce182, type: 3}
+  fTimeTilTarget: 0.6
+  bUseConstantSpeed: 0
+  fSpeed: 20
+  iMaxIterations: 100
+  fBaseCheckTime: 0.15
+  timeBetweenAttacks: 1
+  health: 1
+  attackRange: 20.16
+  playerInAttackRange: 0
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 64
+  bulletSpawn: {fileID: 2867324407260045602}
 --- !u!1 &2867324407980486596
 GameObject:
   m_ObjectHideFlags: 0

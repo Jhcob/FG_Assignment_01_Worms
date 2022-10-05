@@ -10,13 +10,14 @@ public class WeaponMine : MonoBehaviour
     private float mineDelayBase;
     [SerializeField] public float mineDelay = 2f;
     [SerializeField] private int minesMax;
+    [SerializeField] private int roastersMax;
     [SerializeField] private int mines;
+    [SerializeField] private int roasters;
     [SerializeField] private Image[] minesSprites;
-    [SerializeField] private Sprite roasterSprite;
+    [SerializeField] private Image[] roasterSprites;
 
     [SerializeField] private Sprite fullMine, emptyMine;
     [SerializeField] private Sprite fullRoaster, emptyRoaster;
-    public bool isRoasterUsed;
 
      
      
@@ -24,6 +25,7 @@ public class WeaponMine : MonoBehaviour
     {
         ReloadAmmo();
         PlayerMines();
+        PlayerRoaster();
         if (mineDelayBase > 0)
         {
             mineDelayBase -= Time.deltaTime;
@@ -32,14 +34,33 @@ public class WeaponMine : MonoBehaviour
 
     private void PlayerRoaster()
     {
-        if (isRoasterUsed = false)
+        // If implement health pickups
+        if (roasters > roastersMax)
         {
-            roasterSprite = emptyRoaster;
+            roasters = roastersMax;
         }
-        else
+        
+        for (int i = 0; i < roasterSprites.Length; i++)
         {
-            roasterSprite = fullRoaster;
+            if (i < roasters)
+            {
+                roasterSprites[i].sprite = fullRoaster;
+            }
+            else
+            {
+                roasterSprites[i].sprite = emptyRoaster;
+            }
+
+            if (i < roastersMax)
+            {
+                roasterSprites[i].enabled = true;
+            }
+            else
+            {
+                roasterSprites[i].enabled = false;
+            }
         }
+
     }
 
     private void PlayerMines()
@@ -77,16 +98,19 @@ public class WeaponMine : MonoBehaviour
         if (turnManager.TurnNumber()%2 == 0)
         {
             mines = minesMax;
-            isRoasterUsed = false;
+            roasters = roastersMax;
         }
     }
 
     public void DropRoaster()
     {
-        if (isRoasterUsed == false)
+        if (roasters > 0)
         {
-            GameObject bullet = GameObject.Instantiate(roasterPrefab, roasterSpawn.position, Quaternion.identity);
-            Debug.Log("dropped roaster");
+            {
+                roasters--;
+                GameObject bullet = GameObject.Instantiate(roasterPrefab, roasterSpawn.position, Quaternion.identity);
+                Debug.Log("dropped roaster");
+            }
         }
     }
 

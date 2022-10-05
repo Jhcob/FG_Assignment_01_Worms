@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class TurnManager : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class TurnManager : MonoBehaviour
     [Header("Managers")]
     [SerializeField] private GameManager gameManager;
     [SerializeField] private CameraController cameraController;
+    [SerializeField] private PlayerInput playerInput;
     
     [Header("References")]
     [SerializeField] TurnState currentState;
@@ -30,8 +32,8 @@ public class TurnManager : MonoBehaviour
     [Header("UI")]
     [SerializeField] private Image timeBar;
     [SerializeField] GameObject buttonToPlay;
-    [SerializeField] GameObject hudHealthplayer01;
-    [SerializeField] GameObject hudHealthplayer02;    
+    [SerializeField] GameObject hudPlayer01;
+    [SerializeField] GameObject hudPlayer02;    
     [SerializeField] GameObject hudAmmoPlayer02;
     [SerializeField] GameObject tooClose;
     [SerializeField] GameObject meleeAttack;
@@ -50,6 +52,7 @@ public class TurnManager : MonoBehaviour
 
     private bool neverDone;
     private bool neverDoneMeleePlayer01;
+    private bool neverDoneMeleePlayer02;
     
     [Header("DangerZone")]
     [SerializeField] private DangerZone dangerZone;
@@ -60,6 +63,7 @@ public class TurnManager : MonoBehaviour
         turnCount = 1;
         neverDone = true;
         neverDoneMeleePlayer01 = true;
+        neverDoneMeleePlayer02 = true;
         player01.AssignManager(this);
         player02.AssignManager(this);
 
@@ -104,8 +108,8 @@ public class TurnManager : MonoBehaviour
 
     private void TurnStart()
     {
-        hudHealthplayer01.gameObject.SetActive(false);
-        hudHealthplayer02.gameObject.SetActive(false);           
+        hudPlayer01.gameObject.SetActive(false);
+        hudPlayer02.gameObject.SetActive(false);           
         tooClose.gameObject.SetActive(false);
         meleeAttack.gameObject.SetActive(false);
 
@@ -116,10 +120,13 @@ public class TurnManager : MonoBehaviour
 
     private void InputToPlay()
     {
+        playerInput.enabled = false;
+
         buttonToPlay.gameObject.SetActive(true);
         currentTurnTime = 0f;
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.anyKey)
         {
+
             GameStateTurnChange();
         }
     }
@@ -132,6 +139,8 @@ public class TurnManager : MonoBehaviour
         ChangeTurn();
         ResetTimers();
         currentState = TurnState.PlayerTurn;
+        playerInput.enabled = true;
+
     }
 
     public int TurnNumber()
@@ -164,16 +173,16 @@ public class TurnManager : MonoBehaviour
 
         if (player01 == currentPlayer)
         {
-            hudHealthplayer01.gameObject.SetActive(false);
-            hudHealthplayer02.gameObject.SetActive(true);
+            hudPlayer01.gameObject.SetActive(false);
+            hudPlayer02.gameObject.SetActive(true);
             hudAmmoPlayer02.gameObject.SetActive(true);
             
             currentPlayer = player02;
         }
         else if (player02 == currentPlayer)
         {
-            hudHealthplayer01.gameObject.SetActive(true);
-            hudHealthplayer02.gameObject.SetActive(false);
+            hudPlayer01.gameObject.SetActive(true);
+            hudPlayer02.gameObject.SetActive(false);
             hudAmmoPlayer02.gameObject.SetActive(false);
             currentPlayer = player01;
         }
@@ -227,9 +236,10 @@ public class TurnManager : MonoBehaviour
                 meleeAttack.gameObject.SetActive(true);
                 ResetTimers();
                 neverDoneMeleePlayer01 = false;
+                neverDoneMeleePlayer02 = false;
             }
-
-            if (player02 == currentPlayer)
+            
+            if (neverDoneMeleePlayer02 && player02 == currentPlayer)
             {
                 tooClose.gameObject.SetActive(true);
                 ResetTimers();
