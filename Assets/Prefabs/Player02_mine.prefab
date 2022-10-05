@@ -237,7 +237,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9115604463994080323}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.471, z: -0.608}
+  m_LocalPosition: {x: 0, y: -1.055, z: -0.313}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -251,6 +251,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2310410657165530233}
     m_Modifications:
+    - target: {fileID: 748904517610152760, guid: 2f726778500f84f4a8bae1d24d9b3962, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 748904517610152761, guid: 2f726778500f84f4a8bae1d24d9b3962, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 748904517610152763, guid: 2f726778500f84f4a8bae1d24d9b3962, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 748904517973823337, guid: 2f726778500f84f4a8bae1d24d9b3962, type: 3}
       propertyPath: m_Name
       value: Chick
@@ -261,15 +273,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 748904517973857097, guid: 2f726778500f84f4a8bae1d24d9b3962, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 748904517973857097, guid: 2f726778500f84f4a8bae1d24d9b3962, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2.5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 748904517973857097, guid: 2f726778500f84f4a8bae1d24d9b3962, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2.5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 748904517973857097, guid: 2f726778500f84f4a8bae1d24d9b3962, type: 3}
       propertyPath: m_LocalPosition.x

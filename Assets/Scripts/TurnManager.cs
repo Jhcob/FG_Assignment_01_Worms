@@ -50,6 +50,7 @@ public class TurnManager : MonoBehaviour
 
     private bool neverDone;
     private bool neverDoneMeleePlayer01;
+    private bool neverDoneMeleePlayer02;
     
     [Header("DangerZone")]
     [SerializeField] private DangerZone dangerZone;
@@ -60,6 +61,7 @@ public class TurnManager : MonoBehaviour
         turnCount = 1;
         neverDone = true;
         neverDoneMeleePlayer01 = true;
+        neverDoneMeleePlayer02 = true;
         player01.AssignManager(this);
         player02.AssignManager(this);
 
@@ -227,9 +229,10 @@ public class TurnManager : MonoBehaviour
                 meleeAttack.gameObject.SetActive(true);
                 ResetTimers();
                 neverDoneMeleePlayer01 = false;
+                neverDoneMeleePlayer02 = false;
             }
-
-            if (player02 == currentPlayer)
+            
+            if (neverDoneMeleePlayer02 && player02 == currentPlayer)
             {
                 tooClose.gameObject.SetActive(true);
                 ResetTimers();

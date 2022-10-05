@@ -3,6 +3,7 @@ using UnityEngine;
 public class WeaponGun : MonoBehaviour
 {
     //Bullet
+    [SerializeField] private LayerMask PLayer01Mask;    
     [SerializeField] private GameObject bulletPrefab;    
     [SerializeField] private Transform bulletSpawn;
     [SerializeField] private Transform bulletParent;
@@ -11,6 +12,7 @@ public class WeaponGun : MonoBehaviour
     private float gunDelayBase;
     [SerializeField] private float gunDelay = 0.5f;
     public Transform cameraTransform;
+    
 
     private void Update()
     {
@@ -29,7 +31,7 @@ public class WeaponGun : MonoBehaviour
             GameObject bullet = GameObject.Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity, bulletParent);
             BulletController bulletController = bullet.GetComponent<BulletController>();
         
-            if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, Mathf.Infinity))
+            if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, Mathf.Infinity,PLayer01Mask))
             {
                 bulletController.target = hit.point;
                 bulletController.hit = true;
