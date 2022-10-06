@@ -1,21 +1,14 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Cinemachine;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class BulletController : MonoBehaviour
 {
-    private ParticleSystem myParticleSystem;
-    [SerializeField] private ParticleSystem shootImpactFX;
-    [SerializeField] private ParticleSystem shootFX;
+    [SerializeField] private ParticleSystem shootImpactFX, shootFX;
     [SerializeField] private float speed = 50f;
-    
     private float timeToDestroy = 0.3f;
-    
     public Vector3 target { get; set; }
     public bool hit { get; set; }
+    
+    private ParticleSystem myParticleSystem;
 
     private void OnEnable()
     {

@@ -24,6 +24,12 @@ public class AI_Enemy : MonoBehaviour
     [SerializeField] private LayerMask whatIsPlayer;
     
     [SerializeField] private Transform bulletSpawn;
+    [SerializeField] private Animator animRoaster;
+    
+    [SerializeField] private TurnManager turnManager;
+
+    [SerializeField] public ActivePlayer player01;
+    private ActivePlayer currentPlayer;
 
 
     
@@ -31,6 +37,8 @@ public class AI_Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // player01.AssignManager(turnManager);
+        // currentPlayer = turnManager.GetCurrentPlayer();
         objectTracker = GetComponent<ObjectTracker>();
     }
 
@@ -44,15 +52,22 @@ public class AI_Enemy : MonoBehaviour
         {
             if (playerInAttackRange)
             {
+                animRoaster.GetComponent<Animator>().SetBool("isAttacking", true);
+
                 AttackPlayer();
+                
             }
             else
             {
                 Idle();
+                animRoaster.GetComponent<Animator>().SetBool("isAttacking", false);
+
             }
         }
         else
         {
+            animRoaster.GetComponent<Animator>().SetBool("isDead", false);
+
             Invoke(nameof(Dead), .5f);
         }
         this.transform.LookAt(goTarget.transform.position);
@@ -67,8 +82,11 @@ public class AI_Enemy : MonoBehaviour
     private void AttackPlayer()
     {
         Debug.Log("AI attack");
-        if (!alreadyAttacked)
+        
+        if (!alreadyAttacked && turnManager.TurnNumber()%2 == 0)
         {
+            Debug.Log("AI attack player 01!");
+
             if (bUseConstantSpeed)
             {
                 int iIterations = 0;
@@ -110,11 +128,14 @@ public class AI_Enemy : MonoBehaviour
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
+        
     }
     
     private void ResetAttack()
     {
         alreadyAttacked = false;
+        //animRoaster.GetComponent<Animator>().SetBool("isAttacking", false);
+
     }
 
     public void TakeDamage(float damage)
@@ -124,9 +145,15 @@ public class AI_Enemy : MonoBehaviour
 
     private void Dead()
     {
-        Destroy(gameObject);
+        //animRoaster.GetComponent<Animator>().SetBool("isDead", true);
+        Invoke("Destroy", 3f);
         //Dead animation
         Debug.Log("AI dead");
+    }
+
+    private void Destroy()
+    {
+        Destroy(gameObject);
     }
     
     //Visual attack range

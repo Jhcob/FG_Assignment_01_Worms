@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class WeaponMine : MonoBehaviour
 {
     [SerializeField] private TurnManager turnManager;    
-    [SerializeField] private GameObject minePrefab, roasterPrefab;    
+    [SerializeField] private GameObject minePrefab, roasterPrefab, aiEnemy, parentObject;    
     [SerializeField] private Transform mineSpawn, roasterSpawn;
     private float mineDelayBase;
     [SerializeField] public float mineDelay = 2f;
@@ -107,8 +107,10 @@ public class WeaponMine : MonoBehaviour
         if (roasters > 0)
         {
             {
+                Transform childToRemove = parentObject.transform.Find("Roaster01");
+                childToRemove.parent = null;                
                 roasters--;
-                GameObject bullet = GameObject.Instantiate(roasterPrefab, roasterSpawn.position, Quaternion.identity);
+                //GameObject bullet = GameObject.Instantiate(roasterPrefab, roasterSpawn.position, Quaternion.identity);
                 Debug.Log("dropped roaster");
             }
         }

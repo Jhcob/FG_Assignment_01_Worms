@@ -32,7 +32,7 @@ public class AI_BulletController : MonoBehaviour
     {
         if (other.gameObject.tag != "AI")
         {
-            gameObject.GetComponent<MeshRenderer>().enabled = false;
+            //gameObject.GetComponent<MeshRenderer>().enabled = false;
             shootImpactFX.Play();
             Destroy(gameObject, timeToDestroy); 
         }

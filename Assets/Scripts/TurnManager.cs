@@ -15,6 +15,22 @@ public class TurnManager : MonoBehaviour
         TurnChange,
     }
     
+    [Header("TurnSetting")]
+    [SerializeField] private float maxTimePerTurn;
+    [SerializeField] private float TurnDelayAfterDamage = 3f;
+    public int turnCount;
+    private float currentTurnTime;
+    
+    [Header("Check distance between players")]
+    [SerializeField] private LayerMask PlayerMine;
+    [SerializeField] private float radiusDeath = 2f;
+    [SerializeField] private Transform player01Position;
+    [SerializeField] private int meleeDamage =1;
+        
+    [Header("DangerZone")]
+    [SerializeField] private DangerZone dangerZone;
+    [SerializeField] private float DangerZoneDelay = 2f;
+
     [Header("Managers")]
     [SerializeField] private GameManager gameManager;
     [SerializeField] private CameraController cameraController;
@@ -27,7 +43,6 @@ public class TurnManager : MonoBehaviour
     [SerializeField] private ActivePlayerHealth player01Health;
     [SerializeField] private ActivePlayerHealth player02Health;
     private ActivePlayer currentPlayer;
-
     
     [Header("UI")]
     [SerializeField] private Image timeBar;
@@ -37,26 +52,11 @@ public class TurnManager : MonoBehaviour
     [SerializeField] GameObject hudAmmoPlayer02;
     [SerializeField] GameObject tooClose;
     [SerializeField] GameObject meleeAttack;
-    
-    [Header("TurnSetting")]
-    [SerializeField] private float maxTimePerTurn;
-    [SerializeField] private float TurnDelayAfterDamage = 3f;
-    public int turnCount;
-    private float currentTurnTime;
-
-    [Header("Check distance between players")]
-    [SerializeField] private LayerMask PlayerMine;
-    [SerializeField] private float radiusDeath = 2f;
-    [SerializeField] private Transform player01Position;
-    [SerializeField] private int melee =1;
 
     private bool neverDone;
     private bool neverDoneMeleePlayer01;
     private bool neverDoneMeleePlayer02;
-    
-    [Header("DangerZone")]
-    [SerializeField] private DangerZone dangerZone;
-    [SerializeField] private float DangerZoneDelay = 2f;
+
 
     private void Start()
     {
@@ -232,7 +232,7 @@ public class TurnManager : MonoBehaviour
         {
             if (neverDoneMeleePlayer01 && player01 == currentPlayer)
             {
-                player02Health.GetComponent<ActivePlayerHealth>().TakeDamage(melee);
+                player02Health.GetComponent<ActivePlayerHealth>().TakeDamage(meleeDamage);
                 meleeAttack.gameObject.SetActive(true);
                 ResetTimers();
                 neverDoneMeleePlayer01 = false;

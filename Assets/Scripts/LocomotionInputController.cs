@@ -73,7 +73,7 @@ public class LocomotionInputController : MonoBehaviour
         velocity = new Vector3(inputMove.x, 0f, inputMove.y);
         
         // Sprint 
-        if (sprintAction.IsPressed() && velocity.magnitude >= 0.1f  && currentPlayer.GetComponent<CharacterController>().isGrounded)
+        if (currentPlayer == player02 && sprintAction.IsPressed() && velocity.magnitude >= 0.1f  && currentPlayer.GetComponent<CharacterController>().isGrounded)
         {
             speed = sprintSpeed;
         }
@@ -123,7 +123,7 @@ public class LocomotionInputController : MonoBehaviour
     {
         ActivePlayer currentPlayer = manager.GetCurrentPlayer();
 
-        if (currentPlayer.GetComponent<CharacterController>().isGrounded )
+        if (currentPlayer == player02 && currentPlayer.GetComponent<CharacterController>().isGrounded )
         {
             if (jumpAction.triggered)
             {

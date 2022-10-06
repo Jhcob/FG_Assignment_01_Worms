@@ -3,17 +3,14 @@ using UnityEngine.UI;
 
 public class ActivePlayerHealth : MonoBehaviour
 {
-    //[SerializeField] public float maxHealth;
+    [Header("UI Health")]
     [SerializeField] private Image[] hearts;
+    [SerializeField] private Sprite fullHeart, emptyHeart;
     [SerializeField] public int numberOfHearts;
     [SerializeField] public int health;
-    [SerializeField] private Sprite fullHeart, emptyHeart;
-
     private void Update()
     {
-
         PlayerHealth();
-
         CurrentLife();
     }
 
@@ -24,7 +21,8 @@ public class ActivePlayerHealth : MonoBehaviour
         {
             health = numberOfHearts;
         }
-
+        
+        // UI - health iteration
         for (int i = 0; i < hearts.Length; i++)
         {
             if (i < health)
