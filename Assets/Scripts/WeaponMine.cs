@@ -5,8 +5,8 @@ using UnityEngine.UI;
 public class WeaponMine : MonoBehaviour
 {
     [SerializeField] private TurnManager turnManager;    
-    [SerializeField] private GameObject minePrefab, roasterPrefab, aiEnemy, parentObject;    
-    [SerializeField] private Transform mineSpawn, roasterSpawn;
+    [SerializeField] private GameObject minePrefab, aiEnemy, parentObject;    
+    [SerializeField] private Transform mineSpawn;
     private float mineDelayBase;
     [SerializeField] public float mineDelay = 2f;
     [SerializeField] private int minesMax;
@@ -20,19 +20,75 @@ public class WeaponMine : MonoBehaviour
     [SerializeField] private Sprite fullRoaster, emptyRoaster;
 
      
-     
+    [Header("RoasterSpawner")]
+    public GameObject roaster01, roaster02, roaster03;
+    public bool isReady;
+    public TurnManager _turnManager;
+    public int turnNumber;
+
+
+    private void Start()
+    {
+        isReady = true;
+
+    }
+
+
     private void Update()
     {
+        turnNumber = _turnManager.TurnNumber();
+
+        
         ReloadAmmo();
-        PlayerMines();
-        PlayerRoaster();
+        PlayerMinesUI();
+        PlayerRoasterUI();
         if (mineDelayBase > 0)
         {
             mineDelayBase -= Time.deltaTime;
         }
     }
 
-    private void PlayerRoaster()
+    public void RoasterSpawn()
+    {
+        if ( turnNumber == 1 && isReady)
+        {
+            roasters--;
+            Debug.Log("dropped roaster");
+            roaster01.SetActive(true);
+            roaster01.gameObject.transform.parent = null;
+            isReady = false;
+        }
+
+        if (turnNumber == 3)
+        {
+            isReady = true;
+            if (isReady)
+            {
+                roasters--;
+                Debug.Log("dropped roaster");
+                roaster02.SetActive(true);
+
+                roaster02.gameObject.transform.parent = null;
+                isReady = false;
+            }
+        }        
+        
+        if (turnNumber == 5)
+        {
+            isReady = true;
+            if (isReady)
+            {
+                roasters--;
+                Debug.Log("dropped roaster");
+                roaster03.SetActive(true);
+
+                roaster03.gameObject.transform.parent = null;
+                isReady = false;
+            }
+        }    
+    }
+
+    private void PlayerRoasterUI()
     {
         // If implement health pickups
         if (roasters > roastersMax)
@@ -63,7 +119,7 @@ public class WeaponMine : MonoBehaviour
 
     }
 
-    private void PlayerMines()
+    private void PlayerMinesUI()
     {
         // If implement health pickups
         if (mines > minesMax)
@@ -102,19 +158,6 @@ public class WeaponMine : MonoBehaviour
         }
     }
 
-    public void DropRoaster()
-    {
-        if (roasters > 0)
-        {
-            {
-                Transform childToRemove = parentObject.transform.Find("Roaster01");
-                childToRemove.parent = null;                
-                roasters--;
-                //GameObject bullet = GameObject.Instantiate(roasterPrefab, roasterSpawn.position, Quaternion.identity);
-                Debug.Log("dropped roaster");
-            }
-        }
-    }
 
     public void DropMine()
     {

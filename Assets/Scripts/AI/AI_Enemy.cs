@@ -30,15 +30,13 @@ public class AI_Enemy : MonoBehaviour
 
     [SerializeField] public ActivePlayer player01;
     private ActivePlayer currentPlayer;
-
-
     
     private float fDistance = 9999;
+
+    
     // Start is called before the first frame update
     void Start()
     {
-        // player01.AssignManager(turnManager);
-        // currentPlayer = turnManager.GetCurrentPlayer();
         objectTracker = GetComponent<ObjectTracker>();
     }
 
@@ -48,41 +46,28 @@ public class AI_Enemy : MonoBehaviour
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
         
-        if (health > 0)
+        if (health > 0 )
         {
-            if (playerInAttackRange)
+            if (playerInAttackRange &&  turnManager.TurnNumber()%2 == 0)
             {
                 animRoaster.GetComponent<Animator>().SetBool("isAttacking", true);
-
                 AttackPlayer();
-                
             }
             else
             {
-                Idle();
                 animRoaster.GetComponent<Animator>().SetBool("isAttacking", false);
-
             }
         }
         else
         {
-            animRoaster.GetComponent<Animator>().SetBool("isDead", false);
-
-            Invoke(nameof(Dead), .5f);
+            animRoaster.GetComponent<Animator>().SetBool("isDead", true);
         }
         this.transform.LookAt(goTarget.transform.position);
     }
 
-    private void Idle()
-    {
-        // Idle Animation
-        Debug.Log("AI idle");
-    }
 
     private void AttackPlayer()
     {
-        Debug.Log("AI attack");
-        
         if (!alreadyAttacked && turnManager.TurnNumber()%2 == 0)
         {
             Debug.Log("AI attack player 01!");
@@ -135,7 +120,6 @@ public class AI_Enemy : MonoBehaviour
     {
         alreadyAttacked = false;
         //animRoaster.GetComponent<Animator>().SetBool("isAttacking", false);
-
     }
 
     public void TakeDamage(float damage)
@@ -143,19 +127,7 @@ public class AI_Enemy : MonoBehaviour
         health -= damage;
     }
 
-    private void Dead()
-    {
-        //animRoaster.GetComponent<Animator>().SetBool("isDead", true);
-        Invoke("Destroy", 3f);
-        //Dead animation
-        Debug.Log("AI dead");
-    }
 
-    private void Destroy()
-    {
-        Destroy(gameObject);
-    }
-    
     //Visual attack range
     private void OnDrawGizmosSelected()
     {
@@ -163,3 +135,4 @@ public class AI_Enemy : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }
+

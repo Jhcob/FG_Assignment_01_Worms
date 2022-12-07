@@ -16,7 +16,8 @@ public class AI_BulletController : MonoBehaviour
     // Update is called once per frame
     private void OnEnable()
     {
-        shootImpactFX.Play();
+        shootImpactFX.Stop();
+
     }
     void Update()
     {
@@ -30,15 +31,16 @@ public class AI_BulletController : MonoBehaviour
     }
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag != "AI")
-        {
-            //gameObject.GetComponent<MeshRenderer>().enabled = false;
-            shootImpactFX.Play();
-            Destroy(gameObject, timeToDestroy); 
-        }
+        // if (other.gameObject.tag != "AI")
+        // {
+        //     //gameObject.GetComponent<MeshRenderer>().enabled = false;
+        //     Destroy(gameObject, timeToDestroy); 
+        // }
 
         if (other.gameObject.tag == "Player01")
         {
+            shootImpactFX.Play();
+
             ActivePlayerHealth activePlayerHealth = other.gameObject.GetComponent<ActivePlayerHealth>();
             activePlayerHealth.TakeDamage(weaponDamage);
         }

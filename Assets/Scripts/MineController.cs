@@ -6,7 +6,6 @@ public class MineController : MonoBehaviour
     [SerializeField] private int mineDamage = 2;
     private ParticleSystem myParticleSystem;
     [SerializeField] private ParticleSystem explosionFX;
-    [SerializeField] private Image mines;
     private float timeToDestroy = 0.6f;
 
     private void OnEnable()
@@ -17,7 +16,14 @@ public class MineController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         ActivePlayerHealth activePlayerHealth = other.GetComponent<ActivePlayerHealth>();
-        if (activePlayerHealth != null && other.gameObject.tag == "Player01")
+        // if (activePlayerHealth != null && other.gameObject.tag == "Player01")
+        // {
+        //     activePlayerHealth.TakeDamage(mineDamage);
+        //     gameObject.GetComponent<MeshRenderer>().enabled = false;
+        //     explosionFX.Play();
+        //     Destroy(gameObject, timeToDestroy);
+        // }        
+        if (other.gameObject.tag == "Player01")
         {
             activePlayerHealth.TakeDamage(mineDamage);
             gameObject.GetComponent<MeshRenderer>().enabled = false;

@@ -60,10 +60,11 @@ public class PlayerInputShoot : MonoBehaviour
     {
         ActivePlayer currentPlayer = manager.GetCurrentPlayer();
 
-        Debug.Log("special!");
         if (specialAction.triggered && currentPlayer == player02)
         {
-            weaponMine.DropRoaster();
+            weaponMine.RoasterSpawn();
+            Debug.Log("special!");
+
         }
     }
 }

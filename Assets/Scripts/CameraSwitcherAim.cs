@@ -63,6 +63,7 @@ public class CameraSwitcherAim : MonoBehaviour
         }
         if (currentPlayer == player02)
         {    
+            aimCamera01.Priority = priorityLow;
             CanvasAim.enabled = false;
             Canvas.enabled = false;
         }

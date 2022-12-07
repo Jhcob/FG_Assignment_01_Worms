@@ -78,6 +78,7 @@ public class TurnManager : MonoBehaviour
         Player02MineDamaged();
         DamageDistance();
         GetCurrentPlayer();
+        TurnNumber();
     }
 
     void LateUpdate()

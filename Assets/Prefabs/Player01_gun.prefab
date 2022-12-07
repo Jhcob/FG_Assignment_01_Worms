@@ -221,7 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PLayer01Mask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 447
   bulletPrefab: {fileID: 4378817009471714586, guid: 238e26e4fef4eea4195c54751641cc3c, type: 3}
   bulletSpawn: {fileID: 6696555054548962856}
   bulletParent: {fileID: 368622903350740357}
